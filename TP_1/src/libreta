@@ -1,0 +1,198 @@
+printf("\n1. Ingresar Kilómetros: (km = %.2f \n)",kilometres);
+		printf("\n2. Ingresar Precio de Vuelos: (Aerolíneas = %.2f, Latam = %.2f)"
+			   "\n   - Precio vuelo Aerolíneas: "
+			   "\n   - Precio vuelo Latam: \n",aerolineasPrice,latamPrice);
+		printf("\n3. Calcular todos los costos"
+			   "\n   a) Tarjeta de débito: (descuento 10)"
+			   "\n   b) Tarjeta de crédito: (interés 25)"
+		       "\n   c) Bitcoin: (1BTC -> 4606954.55 Pesos Argentinos)"
+		       "\n   d) Mostrar precio por km: (precio unitario)"
+      		   "\n   e) Mostrar diferencia de precio ingresada: (Latam - Aerolíneas) \n");
+		printf("\n4. Informar Resultados"
+			   "\n   Latam: "
+			   "\n   a) Precio con tarjeta de débito: $ "
+			   "\n   b) Precio con tarjeta de crédito: $ "
+			   "\n   c) Precio pagando con bitcoin: BTC"
+			   "\n   d) Precio unitario: $");
+		printf("\n   Aerolíneas: "
+			   "\n   a) Precio con tarjeta de débito: $ "
+			   "\n   b) Precio con tarjeta de crédito: $ "
+			   "\n   c) Precio pagando con bitcoin: BTC"
+			   "\n   d) Precio unitario: $ "
+			   "\n   La diferencia de precio es: $ \n");
+		printf("\n5. Carga forzada de datos ");
+		printf("\n6. Salir ");
+		scanf("%d",&selectedNum);
+
+*****************************************************************************************		
+		
+		"\n   Latam: "
+				   "\n   a) Precio con tarjeta de débito: $ "
+				   "\n   b) Precio con tarjeta de crédito: $ "
+				   "\n   c) Precio pagando con bitcoin: BTC"
+				   "\n   d) Precio unitario: $");
+			printf("\n   Aerolíneas: "
+				   "\n   a) Precio con tarjeta de débito: $ "
+				   "\n   b) Precio con tarjeta de crédito: $ "
+				   "\n   c) Precio pagando con bitcoin: BTC"
+				   "\n   d) Precio unitario: $ "
+				   "\n   La diferencia de precio es: $ 
+				   
+	*************************************************************************************	   
+		 "\n   - Precio vuelo Aerolíneas: "
+				   "\n   - Precio vuelo Latam:
+				   
+***************************************************************************************
+		switch(selectedNum)
+		{
+			case 1:
+				printf("\nIngrese los kilometros totales del vuelo ");
+				scanf("%f",&kilometres);
+				break;
+			case 2:
+				do
+				{
+					printf("\nPrecio vuelo Aerolíneas (mas de $10000): ");
+					scanf("%f",&aerolineasPrice);
+				}while(aerolineasPrice < 10000);
+				do
+				{
+					printf("\nPrecio vuelo Latam (mas de $10000): ");
+					scanf("%f",&latamPrice);
+				}while(latamPrice < 10000);
+
+				pricesFlag = 1;
+				break;
+			case 3:
+				if(pricesFlag == 1)
+				{
+					makeDebitDiscount(aerolineasPrice);   //realiza descuento del 10%
+					makeDebitDiscount(latamPrice);        //
+
+					makeCreditInterest(aerolineasPrice);  //realiza el interes del 25%
+					makeCreditInterest(latamPrice);       //
+
+					passPriceToBtc(aerolineasPrice);      // pasa el precio a bitcoin
+					passPriceToBtc(latamPrice);           //
+
+					calcPricesFlag = 1;
+				}
+				else
+				{
+					printf("\nError, verifique los precios.\n");
+				}
+				break;
+			case 4:
+				break;
+			case 5:
+				break;
+			case 6:
+				break;
+			default:
+				printf("\nError");
+		}		   
+*************************************************************************
+printf("\n¿Desea continuar ingresando precios? s = si, n = no ");
+		fflush(stdin); // __fpurge(stdin)
+		scanf("%c",&res);				   
+**************************************************************************
+
+int calculateAll(float* p1,float* p2,float* i1,float* i2,float* b1,float* b2,float* k1,float* k2,float* d, float price1,float price2,float km)
+{
+	float discount1;
+	float discount2;
+	float interest1;
+	float interest2;
+	float btc1;
+	float btc2;
+	float km1;
+	float km2;
+	float diference;
+
+	discountPrice(&discount1,&discount2, price1, price2);
+	creditInterest(&interest1, &interest2, price1, price2);
+	passToBtc(&btc1, &btc2, price1, price2);
+	kmPrice(&km1, &km2, price1, price2, km);
+	subtractPrices(&diference, price1, price2);
+
+	*p1 = discount1;
+	*p2 = discount2;
+	*i1 = interest1;
+	*i2 = interest2;
+	*b1 = btc1;
+	*b2 = btc2;
+	*k1 = km1;
+	*k2 = km2;
+	*d = diference;
+	return 2;
+}
+************************************************************
+int discountPrice(float* result1, float* result2, float price1, float price2)
+{
+	int ret = -1;
+
+	if(result1 != NULL && result2 != NULL)
+	{
+		ret = 0;
+		*result1 = price1 - price1 * 0.1;
+		*result2 = price2 - price2 * 0.1;
+	}
+
+	return ret;
+}
+
+int creditInterest(float* result1, float* result2, float price1, float price2)
+{
+	int ret = -1;
+
+	if(result1 != NULL && result2 != NULL)
+	{
+		ret = 0;
+		*result1 = price1 + price1 * 0.25;
+		*result2 = price2 + price2 * 0.25;
+	}
+
+	return ret;
+}
+
+int passToBtc(float* result1, float* result2, float price1, float price2)
+{
+	int ret = -1;
+
+	if(result1 != NULL && result2 != NULL)
+	{
+		ret = 0;
+		*result1 = price1 / 4606954.55;
+		*result2 = price2 / 4606954.55;
+	}
+
+	return ret;
+}
+
+int kmPrice(float* result1, float* result2, float price1, float price2,float kms)
+{
+	int ret = -1;
+
+	if(result1 != NULL && result2 != NULL)
+	{
+		ret = 0;
+		*result1 = price1 / kms;
+		*result2 = price2 / kms;
+	}
+
+	return ret;
+}
+
+int subtractPrices(float* result, float price1, float price2,)
+{
+	int ret = -1;
+
+	if(result != NULL)
+	{
+		ret = 0;
+		*result = price1 - price2;
+	}
+
+	return ret;
+}
+		

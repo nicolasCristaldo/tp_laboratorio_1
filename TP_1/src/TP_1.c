@@ -11,92 +11,81 @@
 *Autor: Nicolas Cristaldo
 *
 ********************************************************************/
-
-
 #include <stdio.h>
 #include <stdlib.h>
+#include "calcs.h"
+#include "utn.h"
+#include "menus.h"
 
 int main(void) {
 	setbuf(stdout, NULL);
 
 	int selectedNum;
-	float kilometres;
-	float aerolineasPrice;
-	float latamPrice;
+	float kilometres = 0;
+	float aerlsPrice = 0;
+	float latamPrice = 0;
+	float aerlsPriceDisc;
+	float latamPriceDisc;
+	float aerlsInterest;
+	float latamInterest;
+	float aerlsPriceBtc;
+	float latamPriceBtc;
+	float aerlsKmPrice;
+	float latamKmPrice;
+	float priceDif;
 	int pricesFlag = 0;
 	int calcPricesFlag = 0;
+	int kmFlag = 0;
 
-	do   //menu de opciones
+	do
 	{
-		//system("CLS");
-		printf("\n1. Ingresar Kilómetros: (km = %.2f \n)",kilometres);
-		printf("\n2. Ingresar Precio de Vuelos: (Aerolíneas = %.2f, Latam = %.2f)"
-			   "\n   - Precio vuelo Aerolíneas: "
-			   "\n   - Precio vuelo Latam: \n",aerolineasPrice,latamPrice);
-		printf("\n3. Calcular todos los costos"
-			   "\n   a) Tarjeta de débito: (descuento 10)"
-			   "\n   b) Tarjeta de crédito: (interés 25)"
-		       "\n   c) Bitcoin: (1BTC -> 4606954.55 Pesos Argentinos)"
-		       "\n   d) Mostrar precio por km: (precio unitario)"
-      		   "\n   e) Mostrar diferencia de precio ingresada: (Latam - Aerolíneas) \n");
-		printf("\n4. Informar Resultados"
-			   "\n   Latam: "
-			   "\n   a) Precio con tarjeta de débito: $ "
-			   "\n   b) Precio con tarjeta de crédito: $ "
-			   "\n   c) Precio pagando con bitcoin: BTC"
-			   "\n   d) Precio unitario: $");
-		printf("\n   Aerolíneas: "
-			   "\n   a) Precio con tarjeta de débito: $ "
-			   "\n   b) Precio con tarjeta de crédito: $ "
-			   "\n   c) Precio pagando con bitcoin: BTC"
-			   "\n   d) Precio unitario: $ "
-			   "\n   La diferencia de precio es: $ \n");
-		printf("\n5. Carga forzada de datos ");
-		printf("\n6. Salir ");
-		scanf("%d",&selectedNum);
+		principalMenu(kilometres,aerlsPrice,latamPrice);
+		utn_getNumero(&selectedNum,"\nIngrese el numero (1 al 6): ","\nError",1,6,3);
 
 		switch(selectedNum)
 		{
 			case 1:
-				printf("\nIngrese los kilometros totales del vuelo ");
-				scanf("%f",&kilometres);
+				utn_getFlotante(&kilometres,"\nIngrese los kilometros: ","\nError",2,14000,3);
+				kmFlag = 1;
 				break;
 			case 2:
-				do
-				{
-					printf("\nPrecio vuelo Aerolíneas (mas de $10000): ");
-					scanf("%f",&aerolineasPrice);
-				}while(aerolineasPrice < 10000);
-				do
-				{
-					printf("\nPrecio vuelo Latam (mas de $10000): ");
-					scanf("%f",&latamPrice);
-				}while(latamPrice < 10000);
-
+				pricesSubmenu(&aerlsPrice, &latamPrice);
 				pricesFlag = 1;
 				break;
 			case 3:
-				if(pricesFlag == 1)
+				if(pricesFlag == 1 && kmFlag == 1)
 				{
-					makeDebitDiscount(aerolineasPrice);   //realiza descuento del 10%
-					makeDebitDiscount(latamPrice);        //
-
-					makeCreditInterest(aerolineasPrice);  //realiza el interes del 25%
-					makeCreditInterest(latamPrice);       //
-
-					passPriceToBtc(aerolineasPrice);      // pasa el precio a bitcoin
-					passPriceToBtc(latamPrice);           //
-
+					calculateAll(&aerlsPriceDisc, &aerlsInterest, &aerlsPriceBtc, &aerlsKmPrice, aerlsPrice, kilometres);
+					calculateAll(&latamPriceDisc, &latamInterest, &latamPriceBtc, &latamKmPrice, latamPrice, kilometres);
+					subtractPrices(&priceDif, latamPrice, aerlsPrice);
 					calcPricesFlag = 1;
 				}
 				else
 				{
-					printf("\nError, verifique los precios.\n");
+					printf("\nError, verifique los precios o kilometros ingresados.\n");
 				}
 				break;
 			case 4:
+				if(calcPricesFlag == 1)
+				{
+					seeKms(kilometres);
+					pricesResults("aerolineas",aerlsPriceDisc,aerlsInterest,aerlsPriceBtc,aerlsKmPrice);
+					pricesResults("latam",latamPriceDisc,latamInterest,latamPriceBtc,latamKmPrice);
+					mosrarDiferencia(priceDif);
+				}
+				else
+				{
+					printf("\nError, no se calcularon los precios.\n");
+				}
 				break;
 			case 5:
+				calculateAll(&aerlsPriceDisc, &aerlsInterest, &aerlsPriceBtc, &aerlsKmPrice, 162965, 7090);
+				calculateAll(&latamPriceDisc, &latamInterest, &latamPriceBtc, &latamKmPrice, 159339, 7090);
+				subtractPrices(&priceDif, 159339, 162965);
+				seeKms(7090);
+				pricesResults("aerolineas",aerlsPriceDisc,aerlsInterest,aerlsPriceBtc,aerlsKmPrice);
+				pricesResults("latam",latamPriceDisc,latamInterest,latamPriceBtc,latamKmPrice);
+				mosrarDiferencia(priceDif);
 				break;
 			case 6:
 				break;

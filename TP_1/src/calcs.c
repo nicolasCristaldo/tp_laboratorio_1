@@ -8,30 +8,95 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "utn.h"
+#include "calcs.h"
 
-float makeDebitDiscount(float price)
+int discountPrice(float* result, float price)
 {
-	float discountPrice;
+	int ret = -1;
 
-	discountPrice = price - price * 0.1;
+	if(result != NULL)
+	{
+		ret = 0;
+		*result = price - price * 0.1;
+	}
 
-	return discountPrice;
+	return ret;
 }
 
-float makeCreditInterest(float price)
+int creditInterest(float* result, float price)
 {
-	float interestPrice;
+	int ret = -1;
 
-	interestPrice = price + price * 0.25;
+	if(result != NULL)
+	{
+		ret = 0;
+		*result = price + price * 0.25;
+	}
 
-	return interestPrice;
+	return ret;
 }
 
-float passPriceToBtc(float price)
+int passToBtc(float* result, float price)
 {
-	float btcPrice;
+	int ret = -1;
 
-	btcPrice = price / 4606954.55;
+	if(result != NULL)
+	{
+		ret = 0;
+		*result = price / 4606954.55;
+	}
 
-	return btcPrice;
+	return ret;
 }
+
+int kmPrice(float* result, float price, float kms)
+{
+	int ret = -1;
+
+	if(result != NULL)
+	{
+		ret = 0;
+		*result = price / kms;
+	}
+
+	return ret;
+}
+
+int subtractPrices(float* result, float price1, float price2)
+{
+	int ret = -1;
+
+	if(result != NULL)
+	{
+		ret = 0;
+		*result = price1 - price2;
+	}
+
+	return ret;
+}
+
+int calculateAll(float* discount,float* interest,float* btc,float* kms, float price,float km)
+{
+	int ret = -1;
+	/*float disc = *discount;
+	float intrst = *interest;
+	float bitcoin = *btc;
+	float kilometres = *kms;*/
+
+	if(discount != NULL && interest != 	NULL && btc != NULL && kms != NULL)
+	{
+		ret = 0;
+		discountPrice(&*discount, price);
+		creditInterest(&*interest, price);
+		passToBtc(&*btc, price);
+		kmPrice(&*kms, price, km);
+
+		/*discount = disc;
+		*interest = intrst;
+		*btc = bitcoin;
+		*kms = kilometres;*/
+	}
+	return ret;
+}
+
