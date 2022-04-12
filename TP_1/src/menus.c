@@ -26,30 +26,29 @@ void principalMenu(float km,float price1,float price2)
 			   "\n6. Salir ",km,price1,price2);
 }
 
-void pricesSubmenu(float* price1, float* price2)
+int pricesSubmenu(float* price1, float* price2)
 {
-	int num;
-	float aerolineasPrice;
-	float latamPrice;
-	char res;
+	int ret = -1;
+	float aerolineasPrice = 0;
+	float latamPrice = 0;
 
-	do
-	{
-		utn_getNumero(&num, "\nIngresar precios:\nIngrese 1 para aerolineas\nIngrese 2 para latam ", "\nError", 1, 2, 3);
-
-		if(num == 1)
+		if(price1 != NULL && price2 != NULL)
 		{
-			utn_getFlotante(&aerolineasPrice, "\nPrecio vuelo aerolineas: ", "\nError", 15000, 530000, 3);
-			*price1 = aerolineasPrice;
-		}
-		else
-		{
-			utn_getFlotante(&latamPrice, "\nPrecio vuelo latam: ", "\nError", 12000, 600000, 3);
-			*price2 = latamPrice;
-		}
+			ret = 0;
 
-		validar_respuestaChar(&res,"\n¿Desea continuar ingresando precios? s/n ","\nError",3);
-	}while(res == 's');
+			do
+			{
+				utn_getFlotante(&aerolineasPrice, "\nPrecio vuelo aerolineas: ", "\nError", 15000, 530000, 3);
+				*price1 = aerolineasPrice;
+			}while(aerolineasPrice < 15000 || aerolineasPrice > 530000);
+
+			do
+			{
+				utn_getFlotante(&latamPrice, "\nPrecio vuelo latam: ", "\nError", 12000, 600000, 3);
+				*price2 = latamPrice;
+			}while(latamPrice < 12000 || latamPrice > 600000);
+		}
+	return ret;
 }
 
 void pricesResults(char* aerolinea, float deb, float cred, float btc, float kms)
@@ -57,7 +56,7 @@ void pricesResults(char* aerolinea, float deb, float cred, float btc, float kms)
 	printf("\n Precio %s: "
 		    "\n   a) Precio con tarjeta de débito: $%.2f"
 		    "\n   b) Precio con tarjeta de crédito: $%.2f"
-			"\n   c) Precio pagando con bitcoin: %.4f BTC"
+			"\n   c) Precio pagando con bitcoin: %.6f BTC"
 			"\n   d) Precio unitario: $%.2f \n",aerolinea,deb,cred,btc,kms);
 
 }
@@ -69,5 +68,5 @@ void mosrarDiferencia(float diferencia)
 
 void seeKms(float kilometres)
 {
-	printf("\n   Kms Ingresados: $%.0f \n",kilometres);
+	printf("\n Kms Ingresados: %.0f \n",kilometres);
 }

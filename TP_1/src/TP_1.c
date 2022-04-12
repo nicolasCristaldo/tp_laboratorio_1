@@ -7,7 +7,7 @@
 *Se deberá ingresar por cada vuelo los km totales y el precio total del mismo.
 *El objetivo de la aplicación es mostrar las diferentes opciones de pagos a sus clientes.
 *
-*Version: 0.1 abril 2022
+*Version: 0.3 abril 2022
 *Autor: Nicolas Cristaldo
 *
 ********************************************************************/

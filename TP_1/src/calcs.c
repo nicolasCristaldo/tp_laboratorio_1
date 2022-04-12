@@ -44,7 +44,7 @@ int passToBtc(float* result, float price)
 	if(result != NULL)
 	{
 		ret = 0;
-		*result = price / 4606954.55;
+		*result = price / 4464696.76;
 	}
 
 	return ret;
