@@ -6,9 +6,9 @@
  */
 /**
  * pide un numero entero, lo valida y lo pasa por referencia.
- * @param pResultado - numero ingresado y validado
- * @param mensaje - mensaje para pedir el numero
- * @param mensajeError - mensaje de error
+ * @param pResultado - puntero a int, numero ingresado y validado
+ * @param mensaje - puntero a char, mensaje para pedir el numero
+ * @param mensajeError - puntero a char, mensaje de error
  * @param minimo - numero mas chico dentro del rango de validacion
  * @param maximo - numero mas grande dentro del rango de validacion
  * @param reintentos - cantidad de reintentos
@@ -18,9 +18,9 @@ int utn_getNumero(int* pResultado,char* mensaje,char* mensajeError,int minimo,in
 
 /**
  * pide un numero flotante, lo valida y lo pasa por referencia.
- * @param fResultado - numero ingresado y validado
- * @param mensaje - mensaje para pedir el numero
- * @param mensajeError - mensaje de error
+ * @param fResultado - puntero a float, numero ingresado y validado
+ * @param mensaje - puntero a char, mensaje para pedir el numero
+ * @param mensajeError - puntero a char, mensaje de error
  * @param minimo - numero mas chico dentro del rango de validacion.
  * @param maximo - numero mas grande dentro del rango de validacion.
  * @param reintentos - cantidad de reintentos

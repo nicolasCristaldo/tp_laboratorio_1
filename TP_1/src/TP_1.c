@@ -7,7 +7,7 @@
 *Se deberá ingresar por cada vuelo los km totales y el precio total del mismo.
 *El objetivo de la aplicación es mostrar las diferentes opciones de pagos a sus clientes.
 *
-*Version: 0.3 abril 2022
+*abril 2022
 *Autor: Nicolas Cristaldo
 *
 ********************************************************************/
@@ -16,6 +16,11 @@
 #include "calcs.h"
 #include "utn.h"
 #include "menus.h"
+
+// valores de la carga forzada
+#define CF_KMS 7090
+#define CF_AERLS 162965
+#define CF_LATAM 159339
 
 int main(void) {
 	setbuf(stdout, NULL);
@@ -40,7 +45,7 @@ int main(void) {
 	do
 	{
 		principalMenu(kilometres, aerlsPrice, latamPrice);
-		utn_getNumero(&selectedNum,"\nIngrese el numero (1 al 6): ","\nError",1,6,3);
+		utn_getNumero(&selectedNum,": ","\nError",1,6,3);
 
 		switch(selectedNum)
 		{
@@ -68,10 +73,10 @@ int main(void) {
 			case 4:
 				if(calcPricesFlag == 1)
 				{
-					printf("\n Kms Ingresados: %.0f \n",kilometres);
+					seeKms(kilometres);
 					pricesResults("aerolineas", aerlsPrice, aerlsPriceDisc, aerlsInterest, aerlsPriceBtc, aerlsKmPrice);
 					pricesResults("latam", latamPrice, latamPriceDisc, latamInterest, latamPriceBtc, latamKmPrice);
-					printf("\n La diferencia de precio es: $%.2f \n",priceDif);
+					seeDiference(priceDif);
 				}
 				else
 				{
@@ -79,13 +84,13 @@ int main(void) {
 				}
 				break;
 			case 5:
-				calculateAll(&aerlsPriceDisc, &aerlsInterest, &aerlsPriceBtc, &aerlsKmPrice, 162965, 7090);
-				calculateAll(&latamPriceDisc, &latamInterest, &latamPriceBtc, &latamKmPrice, 159339, 7090);
+				calculateAll(&aerlsPriceDisc, &aerlsInterest, &aerlsPriceBtc, &aerlsKmPrice, CF_AERLS, CF_KMS);
+				calculateAll(&latamPriceDisc, &latamInterest, &latamPriceBtc, &latamKmPrice, CF_LATAM, CF_KMS);
 				subtractPrices(&priceDif, 159339, 162965);
-				printf("\n Kms Ingresados: 7090 \n");
-				pricesResults("aerolineas", 162965, aerlsPriceDisc, aerlsInterest, aerlsPriceBtc, aerlsKmPrice);
-				pricesResults("latam", 159339, latamPriceDisc, latamInterest, latamPriceBtc, latamKmPrice);
-				printf("\n La diferencia de precio es: $%.2f \n",priceDif);
+				seeKms(CF_KMS);
+				pricesResults("aerolineas", CF_AERLS, aerlsPriceDisc, aerlsInterest, aerlsPriceBtc, aerlsKmPrice);
+				pricesResults("latam", CF_LATAM, latamPriceDisc, latamInterest, latamPriceBtc, latamKmPrice);
+				seeDiference(priceDif);
 				break;
 			case 6:
 				break;

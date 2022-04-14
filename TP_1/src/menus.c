@@ -23,7 +23,7 @@ void principalMenu(float km,float price1,float price2)
 			   "\n   e) Mostrar diferencia de precio ingresada: (Latam - Aerolíneas) \n"
 			   "\n4. Informar Resultados \n"
 			   "\n5. Carga forzada de datos "
-			   "\n6. Salir ",km,price1,price2);
+			   "\n6. Salir",km,price1,price2);
 }
 
 int pricesSubmenu(float* price1, float* price2)
@@ -59,4 +59,14 @@ void pricesResults(char* aerolinea, float precio, float deb, float cred, float b
 			"\n   c) Precio pagando con bitcoin: %.6f BTC"
 			"\n   d) Precio unitario: $%.2f \n",aerolinea,precio,deb,cred,btc,kms);
 
+}
+
+void seeKms(float kms)
+{
+	printf("\n Kms Ingresados: %.0f \n",kms);
+}
+
+void seeDiference(float dif)
+{
+	printf("\n La diferencia de precio es: $%.2f \n",dif);
 }
