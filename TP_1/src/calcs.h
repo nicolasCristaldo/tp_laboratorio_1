@@ -6,7 +6,7 @@
  */
 
 /**
- * hace un descuento del 10% a un precio y lo pasa por puntero.
+ * hace un descuento del 10% a un precio y lo pasa por referencia.
  * @param result - resultado del descuento
  * @param price - precio sin descuento
  * @return
@@ -14,7 +14,7 @@
 int discountPrice(float* result, float price);
 
 /**
- * incrementa en 25% un precio y lo pasa por puntero.
+ * incrementa en 25% un precio y lo pasa por referencia.
  * @param result - resultado del aumento
  * @param price - precio sin aumento
  * @return
@@ -22,7 +22,7 @@ int discountPrice(float* result, float price);
 int creditInterest(float* result, float price);
 
 /**
- * pasa a bitcoin un precio y lo pasa por puntero
+ * pasa a bitcoin un precio y lo pasa por referencia
  * @param result - precio pasado a bitcoin
  * @param price - precio en pesos
  * @return
@@ -39,7 +39,7 @@ int passToBtc(float* result, float price);
 int kmPrice(float* result, float price, float kms);
 
 /**
- * resta dos precios y pasa el resultado por puntero.
+ * resta dos precios y pasa el resultado por referencia.
  * @param result - diferencia de precio
  * @param price1 - precio de latam
  * @param price2 - precio de aerolineas
@@ -48,7 +48,7 @@ int kmPrice(float* result, float price, float kms);
 int subtractPrices(float* result, float price1, float price2);
 
 /**
- * hace todos los calculos de la libreria calcs.h (excepto substractPrice) y los pasa por puntero.
+ * hace todos los calculos de la libreria calcs.h (excepto substractPrice) y los pasa por referencia.
  * @param discount - precio con descuento del 10%
  * @param interest - precio con interes del 25%
  * @param btc - precio pasado a bitcoin

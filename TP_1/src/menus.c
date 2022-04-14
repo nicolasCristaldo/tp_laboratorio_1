@@ -51,22 +51,12 @@ int pricesSubmenu(float* price1, float* price2)
 	return ret;
 }
 
-void pricesResults(char* aerolinea, float deb, float cred, float btc, float kms)
+void pricesResults(char* aerolinea, float precio, float deb, float cred, float btc, float kms)
 {
-	printf("\n Precio %s: "
+	printf("\n Precio %s: $%.2f"
 		    "\n   a) Precio con tarjeta de débito: $%.2f"
 		    "\n   b) Precio con tarjeta de crédito: $%.2f"
 			"\n   c) Precio pagando con bitcoin: %.6f BTC"
-			"\n   d) Precio unitario: $%.2f \n",aerolinea,deb,cred,btc,kms);
+			"\n   d) Precio unitario: $%.2f \n",aerolinea,precio,deb,cred,btc,kms);
 
-}
-
-void mosrarDiferencia(float diferencia)
-{
-	printf("\n   La diferencia de precio es: $%.2f \n",diferencia);
-}
-
-void seeKms(float kilometres)
-{
-	printf("\n Kms Ingresados: %.0f \n",kilometres);
 }

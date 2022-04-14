@@ -39,13 +39,13 @@ int main(void) {
 
 	do
 	{
-		principalMenu(kilometres,aerlsPrice,latamPrice);
+		principalMenu(kilometres, aerlsPrice, latamPrice);
 		utn_getNumero(&selectedNum,"\nIngrese el numero (1 al 6): ","\nError",1,6,3);
 
 		switch(selectedNum)
 		{
 			case 1:
-				utn_getFlotante(&kilometres,"\nIngrese los kilometros: ","\nError",2,14000,3);
+				utn_getFlotante(&kilometres,"\nIngrese los kilometros: ","\nError",20,14000,3);
 				kmFlag = 1;
 				break;
 			case 2:
@@ -68,10 +68,10 @@ int main(void) {
 			case 4:
 				if(calcPricesFlag == 1)
 				{
-					seeKms(kilometres);
-					pricesResults("aerolineas",aerlsPriceDisc,aerlsInterest,aerlsPriceBtc,aerlsKmPrice);
-					pricesResults("latam",latamPriceDisc,latamInterest,latamPriceBtc,latamKmPrice);
-					mosrarDiferencia(priceDif);
+					printf("\n Kms Ingresados: %.0f \n",kilometres);
+					pricesResults("aerolineas", aerlsPrice, aerlsPriceDisc, aerlsInterest, aerlsPriceBtc, aerlsKmPrice);
+					pricesResults("latam", latamPrice, latamPriceDisc, latamInterest, latamPriceBtc, latamKmPrice);
+					printf("\n La diferencia de precio es: $%.2f \n",priceDif);
 				}
 				else
 				{
@@ -82,10 +82,10 @@ int main(void) {
 				calculateAll(&aerlsPriceDisc, &aerlsInterest, &aerlsPriceBtc, &aerlsKmPrice, 162965, 7090);
 				calculateAll(&latamPriceDisc, &latamInterest, &latamPriceBtc, &latamKmPrice, 159339, 7090);
 				subtractPrices(&priceDif, 159339, 162965);
-				seeKms(7090);
-				pricesResults("aerolineas",aerlsPriceDisc,aerlsInterest,aerlsPriceBtc,aerlsKmPrice);
-				pricesResults("latam",latamPriceDisc,latamInterest,latamPriceBtc,latamKmPrice);
-				mosrarDiferencia(priceDif);
+				printf("\n Kms Ingresados: 7090 \n");
+				pricesResults("aerolineas", 162965, aerlsPriceDisc, aerlsInterest, aerlsPriceBtc, aerlsKmPrice);
+				pricesResults("latam", 159339, latamPriceDisc, latamInterest, latamPriceBtc, latamKmPrice);
+				printf("\n La diferencia de precio es: $%.2f \n",priceDif);
 				break;
 			case 6:
 				break;
