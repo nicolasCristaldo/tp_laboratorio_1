@@ -15,6 +15,64 @@ static int addName(char* name, int len, char* question);
 static int addPrice(float* price);
 static int addType(int* type);
 static int addFlyCode(char* flyCode, int len);
+static int addStatus(int* status);
+static int sortUpName(Passenger* list, int len);
+static int sortDownName(Passenger* list, int len);
+static int sortUpCode(Passenger* list, int len);
+static int sortDownCode(Passenger* list, int len);
+static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, int type);
+static int calcPrices(Passenger* list, int len,float* total, float* average, int* aboveAverage);
+static int aboveAveragePassengers(Passenger* list, int len, float* average);
+
+static int aboveAveragePassengers(Passenger* list, int len, float* average)
+{
+	int ret = -1;
+	int i;
+
+	if(list != NULL && len > 0 && average != NULL)
+	{
+		ret = 0;
+		for(i = 0; i < len; i++)
+		{
+			if(list[i].isEmpty == 0 && *average < list[i].price)
+			{
+				ret++;
+			}
+		}
+	}
+	return ret;
+}
+
+static int calcPrices(Passenger* list, int len,float* total, float* average, int* aboveAverage)
+{
+	int ret = -1;
+	int i;
+	float cont = 0;
+	int positions = 0;
+
+	if(list != NULL && len > 0 && total != NULL && average != NULL && aboveAverage != NULL)
+	{
+		ret = 0;
+		for(i = 0; i < len; i++)
+		{
+			if(list[i].isEmpty == 0)
+			{
+				positions++;
+				cont = cont + list[i].price;
+			}
+		}
+
+		*total = cont;
+		*average = cont / (float)positions;
+		*aboveAverage = aboveAveragePassengers(list, len, average);
+	}
+	return ret;
+}
+
+static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, int type)
+{
+	printf("nombre: %s %s id: %d precio: %.2f codigo: %s tipo: %d\n",name,lastName,id,price,flyCode,type);
+}
 
 static int addName(char* name, int len, char* question)
 {
@@ -69,6 +127,22 @@ static int addType(int* type)
 	return ret;
 }
 
+static int addStatus(int* status)
+{
+	int ret = -1;
+	int functionRet;
+
+	if(status != NULL)
+	{
+		ret = 0;
+		do
+		{
+			functionRet = utn_getNumero(status,"\nIngrese estado de vuelo\n0-Inactivo.\n1-Activo ", "\nError.\n", 0, 1, 3);
+		}while(functionRet == -1);
+	}
+	return ret;
+}
+
 static int addFlyCode(char* flyCode, int len)
 {
 	int ret = -1;
@@ -90,6 +164,160 @@ static int addFlyCode(char* flyCode, int len)
 	}
 	return ret;
 }
+
+static int sortUpName(Passenger* list, int len)
+{
+	int ret = -1;
+	Passenger aux;
+	int flag;
+	int i;
+	int max;
+
+	if(list != NULL && len > 0)
+	{
+		max = len -1;
+		do
+		{
+			flag = 0;
+
+			for(i = 0; i < max ; i++)
+			{
+				if(list[i].typePassenger > list[i+1].typePassenger)
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+				else if((strcmp(list[i].lastName, list[i+1].lastName) > 0) && (list[i].typePassenger == list[i+1].typePassenger))
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+			}
+			max--;
+		}while(flag);
+	}
+	return ret;
+}
+
+static int sortDownName(Passenger* list, int len)
+{
+	int ret = -1;
+	Passenger aux;
+	int max = len-1;
+	int i;
+	int flag;
+
+	if(list != NULL && len > 0)
+	{
+		ret = 0;
+		do
+		{
+			flag = 0;
+
+			for(i = 0; i < max ; i++)
+			{
+				if(list[i].typePassenger < list[i+1].typePassenger)
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+				else if((strcmp(list[i].lastName, list[i+1].lastName) < 0) && (list[i].typePassenger == list[i+1].typePassenger))
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+			}
+			max--;
+		}while(flag);
+	}
+	return ret;
+}
+
+static int sortDownCode(Passenger* list, int len)
+{
+	int ret = -1;
+	Passenger aux;
+	int max = len-1;
+	int i;
+	int flag;
+
+	if(list != NULL && len > 0)
+	{
+		ret = 0;
+		do
+		{
+			flag = 0;
+
+			for(i = 0; i < max; i++)
+			{
+				if(list[i].statusFlight < list[i+1].statusFlight)
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+				else if((strcmp(list[i].flyCode, list[i+1].flyCode) < 0) && (list[i].statusFlight == list[i+1].statusFlight))
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+			}
+			max--;
+		}while(flag);
+	}
+	return ret;
+}
+
+static int sortUpCode(Passenger* list, int len)
+{
+	int ret = -1;
+	Passenger aux;
+	int max = len-1;
+	int i;
+	int flag;
+
+	if(list != NULL && len > 0)
+	{
+		ret = 0;
+		do
+		{
+			flag = 0;
+
+			for(i = 0; i < max; i++)
+			{
+
+				if(list[i].statusFlight < list[i+1].statusFlight)
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+				else if((strcmp(list[i].flyCode, list[i+1].flyCode) > 0) && (list[i].statusFlight == list[i+1].statusFlight))
+				{
+					flag = 1;
+					aux = list[i];
+					list[i] = list[i+1];
+					list[i+1] = aux;
+				}
+			}
+			max--;
+		}while(flag);
+	}
+	return ret;
+}
+
 int initPassengers(Passenger* list, int len)
 {
 	int ret = -1;
@@ -102,18 +330,25 @@ int initPassengers(Passenger* list, int len)
 		for(i = 0; i < len; i++)
 		{
 			list[i].isEmpty = 1;
+			list[i].id = -1;
+			strcpy(list[i].name,"");
+			strcpy(list[i].lastName,"");
+			strcpy(list[i].flyCode,"");
+			list[i].price = -1;
+			list[i].typePassenger = -1;
+			list[i].statusFlight = -1;
 		}
 
 	}
 	return ret;
 }
 
-int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flycode[])
+int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flycode[], int status, int* pos)
 {
 	int ret = -1;
 	int i;
 
-	if(list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL && price > 0 && (typePassenger >= 1 || typePassenger <= 3) && flycode > 0)
+	if(pos != NULL && list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL && price > 0 && (status == 0 || status == 1) && (typePassenger >= 1 && typePassenger <= 3) && flycode > 0)
 	{
 		ret = 0;
 
@@ -128,19 +363,21 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 				list[i].price = price;
 				list[i].typePassenger = typePassenger;
 				strncpy(list[i].flyCode,flycode,sizeof(list[i].flyCode));
+				list[i].statusFlight = status;
+				*pos = 1;
 				break;
 			}
 		}
 
-		if(i == len)
+		if(i == len-1)
 		{
-			printf("\nNo hay espacios disponibles.\n");
+			*pos = 0;
 		}
 	}
 	return ret;
 }
 
-int loadPassenger(Passenger* list, int len, int* actualId)
+int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 {
 	int ret = -1;
 	char res;
@@ -150,12 +387,20 @@ int loadPassenger(Passenger* list, int len, int* actualId)
 	float price;
 	int type;
 	char flyCode[10];
+	int status;
+	int position = *pos;
 
 	if(list != NULL && len > 0)
 	{
 		ret = 0;
 		do
 		{
+			if(position == 0)
+			{
+				printf("\nNo hay mas espacios disponibles.\n");
+				*pos = position;
+				break;
+			}
 			strncpy(name,"",sizeof(name));
 			addName(name, sizeof(name), "\nIngrese su nombre: ");
 			strncpy(lastName,"",sizeof(lastName));
@@ -164,8 +409,9 @@ int loadPassenger(Passenger* list, int len, int* actualId)
 			addType(&type);
 			strncpy(flyCode,"",sizeof(flyCode));
 			addFlyCode(flyCode, sizeof(flyCode));
+			addStatus(&status);
 
-			addPassenger(list, len, id, name, lastName, price, type, flyCode);
+			addPassenger(list, len, id, name, lastName, price, type, flyCode, status, &position);
 			id++;
 
 			printf("desea continuar? s/n ");
@@ -214,7 +460,7 @@ int removePassenger(Passenger* list, int len, int id)
 	return ret;
 }
 
-int deletePassenger(Passenger* list, int len, int actualId)
+int deletePassenger(Passenger* list, int len, int actualId, int* pos)
 {
 	int ret = -1;
 	int id;
@@ -228,6 +474,7 @@ int deletePassenger(Passenger* list, int len, int actualId)
 			if(removePassenger(list, len, id) != -1)
 			{
 				ret = 0;
+				*pos = 1;
 			}
 		}
 	}
@@ -290,5 +537,109 @@ int modifyPassenger(Passenger* list, int len, int actualId)
 		}
 	}
 
+	return ret;
+}
+
+int sortPassengers(Passenger* list, int len, int order)
+{
+	int ret = -1;
+
+	if(list != NULL && len > 0 && (order == 0 || order == 1))
+	{
+		if(order == 1)
+		{
+			sortUpName(list, len);
+		}
+		else
+		{
+			sortDownName(list,len);
+		}
+	}
+	return ret;
+}
+
+int sortPassengersByCode(Passenger* list, int len, int order)
+{
+	int ret = -1;
+
+	if(list != NULL && len > 0 && (order == 0 || order == 1))
+	{
+		if(order == 1)
+		{
+			sortUpCode(list, len);
+		}
+		else
+		{
+			sortDownCode(list,len);
+		}
+	}
+	return ret;
+}
+
+int printPassengers(Passenger* list, int length)
+{
+	int ret = -1;
+	int i;
+
+	if(list != NULL && length > 0)
+	{
+		ret = 0;
+
+		for(i = 0; i < length; i++)
+		{
+			if(list[i].isEmpty == 0)
+			{
+				printPassenger(list[i].id, list[i].name, list[i].lastName, list[i].flyCode, list[i].price, list[i].typePassenger);
+			}
+		}
+
+	}
+	return ret;
+}
+
+int inform(Passenger* list, int len)
+{
+	int ret = -1;
+	int res;
+	int selectedNum;
+	float total;
+	float average;
+	int aboveAverage;
+
+	if(list != NULL && len > 0)
+	{
+		res = utn_getNumero(&selectedNum,"\nInformar:\n1-Listado por orden alfabetico.\n2-Total y promedio de los precios, pasajeros que superan el promedio.\n3-Listado por codigo.","\nError.\n",1,3,3);
+		if(!res)
+		{
+			switch(selectedNum)
+			{
+			case 1:
+				res = utn_getNumero(&selectedNum,"\n0-Ordenar decrecientemente.\n1-Ordenar crecientemente. ","\nError.\n",0,1,3);
+				if(!res)
+				{
+					ret = 0;
+					sortPassengers(list, len, selectedNum);
+					printPassengers(list, len);
+				}
+				break;
+			case 2:
+				if(calcPrices(list, len, &total, &average, &aboveAverage) == 0)
+				{
+					ret = 0;
+					printf("\nTotal: $%.2f\nPromedio: $%.2f\nPasajeros por sobre el promedio: %d\n",total,average,aboveAverage);
+				}
+				break;
+			case 3:
+				res = utn_getNumero(&selectedNum,"\n0-Ordenar decrecientemente.\n1-Ordenar crecientemente. ","\nError.\n",0,1,3);
+				if(!res)
+				{
+					ret = 0;
+					sortPassengersByCode(list, len, selectedNum);
+					printPassengers(list, len);
+				}
+				break;
+			}
+		}
+	}
 	return ret;
 }

@@ -39,17 +39,20 @@ int initPassengers(Passenger* list, int len);
  * @param price variable de tipo float, precio de vuelo
  * @param typePassenger variable de tipo int, tipo del pasajero
  * @param flycode array de caracteres, codigo alfanumerico del pasajero
+ * @param status estado de vuelo
+ * @param pos posicion del array donde se guardaron los datos, si no la encuentra, retorna -1
  * @return
  */
-int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flycode[]);
+int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flycode[], int status, int* pos);
 /**
  * llama a las funciones que piden los datos del pasajero
  * @param listlist puntero a array de pasajeros
  * @param len len tamaño del array
  * @param actualId numero de id mas grande hasta el momento
+ * @param pos puntero a int, si hay posiciones disponibles retorna la ultima posicion donde se guardaron datos, si no hay retorna -1
  * @return
  */
-int loadPassenger(Passenger* list, int len, int* actualId);
+int loadPassenger(Passenger* list, int len, int* actualId,int* pos);
 /**
  * busca un pasajero recibiendo su id
  * @param list puntero a array de pasajeros
@@ -71,9 +74,10 @@ int removePassenger(Passenger* list, int len, int id);
  * @param list puntero a array de pasajeros
  * @param len tamaño del array
  * @param actualId numero de id mas grande hasta el momento
+ * @param pos puntero a int, retorna 0 para señalar que hay un espacio libre
  * @return
  */
-int deletePassenger(Passenger* list, int len, int actualId);
+int deletePassenger(Passenger* list, int len, int actualId,int* pos);
 /**
  * pide el id de un pasajero y modifica el campo deseado por el usuario
  * @param list puntero a array de pasajeros
@@ -82,3 +86,33 @@ int deletePassenger(Passenger* list, int len, int actualId);
  * @return
  */
 int modifyPassenger(Passenger* list, int len, int actualId);
+/**
+ * ordena el array de forma creciente o decreciente teniendo en cuenta el nombre
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @param order variable de tipo int, si es 1 se ordenara el array de forma creciente, si es 0, decreciente
+ * @return
+ */
+int sortPassengers(Passenger* list, int len, int order);
+/**
+ * imprime el array de pasajeros
+ * @param list puntero a array de pasajeros
+ * @param length tamaño del array
+ * @return
+ */
+int printPassengers(Passenger* list, int length);
+/**
+ * ordena el array de forma creciente o decreciente teniendo en cuenta el codigo
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @param order variable de tipo int, si es 1 se ordenara el array de forma creciente, si es 0, decreciente
+ * @return
+ */
+int sortPassengersByCode(Passenger* list, int len, int order);
+/**
+ * informa listas ordenadas o datos de precios segun el usuario lo desee
+ * @param list  puntero a array de pasajeros
+ * @param len tamaño del array
+ * @return
+ */
+int inform(Passenger* list, int len);
