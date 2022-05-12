@@ -22,6 +22,12 @@ typedef struct
 	int isEmpty;
 }Passenger;
 
+typedef struct
+{
+	int idType;
+	char description[20];
+}typePassenger;
+
 /**
  * pone la bandera isEmpty en TRUE para indicar que todas las posiciones estan vacias
  * @param list puntero a array de pasajeros
@@ -97,10 +103,11 @@ int sortPassengers(Passenger* list, int len, int order);
 /**
  * imprime el array de pasajeros
  * @param list puntero a array de pasajeros
+ * @param types puntero a array de tipos de pasajero
  * @param length tamaño del array
  * @return
  */
-int printPassengers(Passenger* list, int length);
+int printPassengers(Passenger* list, typePassenger* types, int length);
 /**
  * ordena el array de forma creciente o decreciente teniendo en cuenta el codigo
  * @param list puntero a array de pasajeros
@@ -113,6 +120,14 @@ int sortPassengersByCode(Passenger* list, int len, int order);
  * informa listas ordenadas o datos de precios segun el usuario lo desee
  * @param list  puntero a array de pasajeros
  * @param len tamaño del array
+ * @param types puntero a array de tipos de pasajero
  * @return
  */
-int inform(Passenger* list, int len);
+int inform(Passenger* list, int len, typePassenger* types);
+/**
+ * busca una posicion libre en el array
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @return retorna la posicion libre, si no la encuentra retorna -1
+ */
+int findFreePosition(Passenger* list, int len);

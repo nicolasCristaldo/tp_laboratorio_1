@@ -44,4 +44,5 @@ int esSoloLetra(char *pResultado);
  */
 int esSoloNumero(char *pResultado);
 
+
 #endif /* ARRAYSCHAR_H_ */

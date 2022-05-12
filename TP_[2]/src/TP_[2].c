@@ -1,11 +1,12 @@
-/*
- ============================================================================
- Name        : TP_[2].c
- Author      : 
- Version     :
- Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
- ============================================================================
+/********************************************************************
+*Programa: TP 2
+*
+*Objetivo:
+*
+*mayo 2022
+*Autor: Nicolas Cristaldo
+*
+********************************************************************
  */
 
 #include <stdio.h>
@@ -13,7 +14,7 @@
 #include "utn.h"
 #include "ArrayPassenger.h"
 
-#define QTY_PASSENGER 10
+#define QTY_PASSENGER 3
 
 int main(void) {
 	setbuf(stdout,NULL);
@@ -22,7 +23,17 @@ int main(void) {
 	int selectedNum;
 	int res;
 	int actualId = 1;
-	int freePosition = 1;
+	int freePosition = 0;
+
+	Passenger array_AF[7] = {{1,"Olga","Fernandez",23200,"AAA123",3,1,},
+							{16,"Jorge","Rodriguez",84250.25,"BBB123",2,1},
+							{22,"Fabricio","Molina",12476,"CCC123",1,0},
+							{4,"Ramiro","Somoza",22750,"DDD123",2,1},
+							{15,"Marcelo","Gallardo",91218,"AAA123",2,1},
+							{9,"Liliana","Perez",41589.36,"EEE123",2,0},
+							{23,"Kiara","Alvarez",68545,"BBB123",1,1}};
+
+	typePassenger types[3] = {{1,"Menor"},{2,"Adulto"},{3,"Jubilado"}};
 
 	initPassengers(arrayPassengers, QTY_PASSENGER);
 
@@ -34,23 +45,32 @@ int main(void) {
 			switch(selectedNum)
 			{
 				case 1:
-					loadPassenger(arrayPassengers, QTY_PASSENGER, &actualId, &freePosition);
+					if(freePosition < QTY_PASSENGER )
+					{
+						loadPassenger(arrayPassengers, QTY_PASSENGER, &actualId, &freePosition);
+					}
 					break;
 				case 2:
-					modifyPassenger(arrayPassengers, QTY_PASSENGER, actualId-1);
+					if(freePosition > 0)
+					{
+						modifyPassenger(arrayPassengers, QTY_PASSENGER, actualId-1);
+					}
 					break;
 				case 3:
-					deletePassenger(arrayPassengers, QTY_PASSENGER, actualId-1, &freePosition);
+					if(freePosition > 0)
+					{
+						deletePassenger(arrayPassengers, QTY_PASSENGER, actualId-1, &freePosition);
+					}
 					break;
 				case 4:
-					inform(arrayPassengers, QTY_PASSENGER);
+					if(freePosition > 0)
+					{
+						inform(arrayPassengers, QTY_PASSENGER, types);
+					}
 					break;
 				case 5:
-					sortPassengers(arrayPassengers, QTY_PASSENGER, 1);
-					printPassengers(arrayPassengers, QTY_PASSENGER);
-					printf("\n");
-					sortPassengersByCode(arrayPassengers, QTY_PASSENGER, 0);
-					printPassengers(arrayPassengers, QTY_PASSENGER);
+					sortPassengers(array_AF, 7, 1);
+					printPassengers(array_AF, types,7);
 					break;
 			}
 		}
