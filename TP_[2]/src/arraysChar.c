@@ -50,13 +50,13 @@ int esTelefono(int* resultado, char tel[], int cant)
 	return ret;
 }
 
-int esAlfanumerico(int* resultado, char alfanum[], int cant)
+int esAlfanumerico(int* resultado, char alfanum[])
 {
 	int ret = -1;
 	int res = 1;
 	int i;
 
-	if(resultado != NULL && alfanum != NULL && cant > 0)
+	if(resultado != NULL && alfanum != NULL)
 	{
 		ret = 1;
 

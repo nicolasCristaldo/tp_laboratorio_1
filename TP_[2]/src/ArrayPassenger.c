@@ -11,11 +11,6 @@
 #include <string.h>
 #include "arraysChar.h"
 
-static int addName(char* name, int len, char* question);
-static int addPrice(float* price);
-static int addType(int* type);
-static int addFlyCode(char* flyCode, int len);
-static int addStatus(int* status);
 static int sortUpName(Passenger* list, int len);
 static int sortDownName(Passenger* list, int len);
 static int sortUpCode(Passenger* list, int len);
@@ -72,97 +67,6 @@ static int calcPrices(Passenger* list, int len,float* total, float* average, int
 static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, char* type)
 {
 	printf(" %-22s %-20s %-11d %-20.2f %-14s %-20s\n",lastName,name,id,price,flyCode,type);
-}
-
-static int addName(char* name, int len, char* question)
-{
-	int ret = -1;
-	char aux[4000];
-
-	if(name != NULL)
-	{
-		ret = 0;
-		do
-		{
-			strncpy(aux,"",sizeof(aux));
-			printf(question);
-			fflush(stdin);
-			gets(aux);
-		}while(esLetraConEspacio(aux) == 0 || strlen(aux) >= len || strlen(aux) <= 1);
-		strncpy(name,aux,len);
-	}
-
-	return ret;
-}
-
-static int addPrice(float* price)
-{
-	int ret = -1;
-	int functionRet;
-
-	if(price != NULL)
-	{
-		ret = 0;
-		do
-		{
-			functionRet = utn_getFlotante(price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3);
-		}while(functionRet == -1);
-	}
-	return ret;
-}
-
-static int addType(int* type)
-{
-	int ret = -1;
-	int functionRet;
-
-	if(type != NULL)
-	{
-		ret = 0;
-		do
-		{
-			functionRet = utn_getNumero(type,"\nIngrese el tipo de pasajero\n1-Menor\n2-Adulto\n3-Jubilado ", "\nError.\n", 1, 3, 3);
-		}while(functionRet == -1);
-	}
-	return ret;
-}
-
-static int addStatus(int* status)
-{
-	int ret = -1;
-	int functionRet;
-
-	if(status != NULL)
-	{
-		ret = 0;
-		do
-		{
-			functionRet = utn_getNumero(status,"\nIngrese estado de vuelo\n0-Inactivo.\n1-Activo ", "\nError.\n", 0, 1, 3);
-		}while(functionRet == -1);
-	}
-	return ret;
-}
-
-static int addFlyCode(char* flyCode, int len)
-{
-	int ret = -1;
-	char aux[4000];
-	int res;
-
-	if(flyCode != NULL && len > 0)
-	{
-		ret = 0;
-		do
-		{
-			strncpy(aux,"",sizeof(aux));
-			printf("\nIngrese codigo de vuelo: ");
-			fflush(stdin);
-			gets(aux);
-			esAlfanumerico(&res, aux, sizeof(aux));
-		}while(res == 0 || strlen(aux) >= len || strlen(aux) <= 1);
-		strncpy(flyCode,aux,len);
-	}
-	return ret;
 }
 
 static int sortUpName(Passenger* list, int len)
@@ -396,15 +300,37 @@ int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 				printf("\nNo hay mas espacios disponibles.\n");
 				break;
 			}
+
 			strncpy(name,"",sizeof(name));
-			addName(name, sizeof(name), "\nIngrese su nombre: ");
 			strncpy(lastName,"",sizeof(lastName));
-			addName(lastName, sizeof(lastName), "\nIngrese su apellido: ");
-			addPrice(&price);
-			addType(&type);
 			strncpy(flyCode,"",sizeof(flyCode));
-			addFlyCode(flyCode, sizeof(flyCode));
-			addStatus(&status);
+			if(utn_getNombre(name, "\nIngrese su nombre: ", "\nError.\n",3, 51, 3) == -1)
+			{
+				break;
+			}
+			if(utn_getNombre(lastName, "\nIngrese su apellido: ", "\nError.\n",3, 51, 3) == -1)
+			{
+				break;
+			}
+			if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3) == -1)
+			{
+				break;
+			}
+
+			if(utn_getNumero(&type,"\nIngrese el tipo de pasajero\n1-Menor\n2-Adulto\n3-Jubilado ", "\nError.\n", 1, 3, 3) == -1)
+			{
+				break;
+			}
+
+			if(utn_getAlfanumerico(flyCode, "\nIngrese codigo de vuelo: ", "\nError.\n", 4, 10, 3) == -1)
+			{
+				break;
+			}
+
+			if(utn_getNumero(&status,"\nIngrese estado de vuelo\n0-Inactivo.\n1-Activo ", "\nError.\n", 0, 1, 3) == -1)
+			{
+				break;
+			}
 
 			addPassenger(list, len, id, name, lastName, price, type, flyCode, status, &position);
 			id++;
@@ -472,6 +398,10 @@ int deletePassenger(Passenger* list, int len, int actualId, int* pos)
 				ret = 0;
 				*pos = *pos -1;
 			}
+			else
+			{
+				printf("\nNo se encontró el id del pasajero.\n");
+			}
 		}
 	}
 
@@ -508,24 +438,34 @@ int modifyPassenger(Passenger* list, int len, int actualId)
 					switch(camp)
 					{
 						case 1:
-							addName(name, sizeof(name), "\nIngrese su nombre: ");
-							strncpy(list[position].name,name,sizeof(list[position].name));
+							if(utn_getNombre(name, "\nIngrese su nombre: ", "\nError.\n",3, 51, 3) == 0)
+							{
+								strncpy(list[position].name,name,sizeof(list[position].name));
+							}
 							break;
 						case 2:
-							addName(lastName, sizeof(lastName), "\nIngrese su apellido: ");
-							strncpy(list[position].lastName,lastName,sizeof(list[position].lastName));
+							if(utn_getNombre(lastName, "\nIngrese su apellido: ", "\nError.\n",3, 51, 3) == 0)
+							{
+								strncpy(list[position].lastName,lastName,sizeof(list[position].lastName));
+							}
 							break;
 						case 3:
-							addPrice(&price);
-							list[position].price = price;
+							if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3) == 0)
+							{
+								list[position].price = price;
+							}
 							break;
 						case 4:
-							addType(&type);
-							list[position].typePassenger = type;
+							if(utn_getNumero(&type,"\nIngrese el tipo de pasajero\n1-Menor\n2-Adulto\n3-Jubilado ", "\nError.\n", 1, 3, 3) == 0)
+							{
+								list[position].typePassenger = type;
+							}
 							break;
 						case 5:
-							addFlyCode(flyCode, sizeof(flyCode));
-							strncpy(list[position].flyCode,flyCode,sizeof(list[position].flyCode));
+							if(utn_getAlfanumerico(flyCode, "\nIngrese codigo de vuelo: ", "\nError.\n", 4, 10, 3) == 0)
+							{
+								strncpy(list[position].flyCode,flyCode,sizeof(list[position].flyCode));
+							}
 							break;
 					}
 				}

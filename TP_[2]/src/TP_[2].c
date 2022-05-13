@@ -24,12 +24,11 @@ int main(void) {
 	int res;
 	int actualId = 1;
 	int freePosition = 0;
-
 	Passenger array_AF[7] = {{1,"Olga","Fernandez",23200,"AAA123",3,1,},
 							{16,"Jorge","Rodriguez",84250.25,"BBB123",2,1},
 							{22,"Fabricio","Molina",12476,"CCC123",1,0},
-							{4,"Ramiro","Somoza",22750,"DDD123",2,1},
-							{15,"Marcelo","Gallardo",91218,"AAA123",2,1},
+							{21,"Ramiro","Somoza",22750,"DDD123",2,1},
+							{31,"Marcelo","Gallardo",91218,"AAA123",2,1},
 							{9,"Liliana","Perez",41589.36,"EEE123",2,0},
 							{23,"Kiara","Alvarez",68545,"BBB123",1,1}};
 
@@ -49,11 +48,19 @@ int main(void) {
 					{
 						loadPassenger(arrayPassengers, QTY_PASSENGER, &actualId, &freePosition);
 					}
+					else
+					{
+						printf("\nNo hay mas espacios disponibles.\n");
+					}
 					break;
 				case 2:
 					if(freePosition > 0)
 					{
 						modifyPassenger(arrayPassengers, QTY_PASSENGER, actualId-1);
+					}
+					else
+					{
+						printf("\nNo hay pasajeros cargados.\n");
 					}
 					break;
 				case 3:
@@ -61,11 +68,19 @@ int main(void) {
 					{
 						deletePassenger(arrayPassengers, QTY_PASSENGER, actualId-1, &freePosition);
 					}
+					else
+					{
+						printf("\nNo hay pasajeros cargados.\n");
+					}
 					break;
 				case 4:
 					if(freePosition > 0)
 					{
 						inform(arrayPassengers, QTY_PASSENGER, types);
+					}
+					else
+					{
+						printf("\nNo hay pasajeros cargados.\n");
 					}
 					break;
 				case 5:
