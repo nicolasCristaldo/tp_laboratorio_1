@@ -15,9 +15,49 @@ static int sortUpName(Passenger* list, int len);
 static int sortDownName(Passenger* list, int len);
 static int sortUpCode(Passenger* list, int len);
 static int sortDownCode(Passenger* list, int len);
-static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, char* type);
+static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, char* type, char* status);
 static int calcPrices(Passenger* list, int len,float* total, float* average, int* aboveAverage);
 static int aboveAveragePassengers(Passenger* list, int len, float* average);
+static int findType(typePassenger* types, int number);
+static int findStatus(statusFlight* flyStatus, int number);
+
+static int findType(typePassenger* types, int number)
+{
+	int ret = -1;
+	int i;
+
+	if(number >= 0)
+	{
+		for(i = 0; i < 3; i++)
+		{
+			if(number == types[i].idType)
+			{
+				ret = i;
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
+static int findStatus(statusFlight* flyStatus, int number)
+{
+	int ret = -1;
+	int i;
+
+	if(number >= 0)
+	{
+		for(i = 0; i < 2; i++)
+		{
+			if(number == flyStatus[i].status)
+			{
+				ret = i;
+				break;
+			}
+		}
+	}
+	return ret;
+}
 
 static int aboveAveragePassengers(Passenger* list, int len, float* average)
 {
@@ -64,9 +104,9 @@ static int calcPrices(Passenger* list, int len,float* total, float* average, int
 	return ret;
 }
 
-static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, char* type)
+static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, char* type, char* status)
 {
-	printf(" %-22s %-20s %-11d %-20.2f %-14s %-20s\n",lastName,name,id,price,flyCode,type);
+	printf(" %-28s %-30s %-8d %-15.2f %-14s %-12s %-10s\n",lastName,name,id,price,flyCode,type, status);
 }
 
 static int sortUpName(Passenger* list, int len)
@@ -508,39 +548,39 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 	return ret;
 }
 
-int printPassengers(Passenger* list,typePassenger* types, int length)
+int printPassengers(Passenger* list,typePassenger* types, statusFlight* status, int length)
 {
 	int ret = -1;
 	int i;
-	int j;
+	int typePos;
+	int statusPos;
 
 	if(list != NULL && length > 0)
 	{
 		ret = 0;
 
-		printf("\n*****************************************************************************************************\n");
-		printf(" APELLIDO               NOMBRE               ID          PRECIO               CODIGO         TIPO\n");
+		printf("\n*****************************************************************************************************************************\n");
+		printf(" %-28s %-30s %-8s %-15s %-14s %-12s %-10s\n","APELLIDO","NOMBRE","ID","PRECIO","CODIGO","TIPO","ESTADO");
 		printf("\n");
 		for(i = 0; i < length; i++)
 		{
 			if(list[i].isEmpty == 0)
 			{
-				for(j = 0; j < 3;j++)
+				typePos = findType(types, list[i].typePassenger);
+				statusPos = findStatus(status, list[i].statusFlight);
+				if(typePos != -1 && statusPos != -1)
 				{
-					if(types[j].idType == list[i].typePassenger)
-					{
-						printPassenger(list[i].id, list[i].name, list[i].lastName, list[i].flyCode, list[i].price, types[j].description);
-					}
+					printPassenger(list[i].id, list[i].name, list[i].lastName, list[i].flyCode, list[i].price, types[typePos].description, status[statusPos].description);
 				}
 			}
 		}
 		printf("\n");
-		printf("*****************************************************************************************************\n");
+		printf("*****************************************************************************************************************************\n");
 	}
 	return ret;
 }
 
-int inform(Passenger* list, int len,typePassenger* types)
+int inform(Passenger* list, int len,typePassenger* types, statusFlight* status)
 {
 	int ret = -1;
 	int res;
@@ -562,7 +602,7 @@ int inform(Passenger* list, int len,typePassenger* types)
 				{
 					ret = 0;
 					sortPassengers(list, len, selectedNum);
-					printPassengers(list,types, len);
+					printPassengers(list,types, status, len);
 				}
 				break;
 			case 2:
@@ -578,7 +618,7 @@ int inform(Passenger* list, int len,typePassenger* types)
 				{
 					ret = 0;
 					sortPassengersByCode(list, len, selectedNum);
-					printPassengers(list,types, len);
+					printPassengers(list,types, status, len);
 				}
 				break;
 			}

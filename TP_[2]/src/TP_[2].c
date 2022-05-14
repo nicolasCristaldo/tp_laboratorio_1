@@ -36,15 +36,16 @@ int main(void) {
 	int res;
 	int actualId = 1;
 	int freePosition = 0;
-	Passenger array_AF[7] = {{1,"Olga","Fernandez",23200,"AAA123",3,1,},
-							{16,"Jorge","Rodriguez",84250.25,"BBB123",2,1},
-							{22,"Fabricio","Molina",12476,"CCC123",1,0},
-							{21,"Ramiro","Somoza",22750,"DDD123",2,1},
-							{31,"Marcelo","Gallardo",91218,"AAA123",2,1},
-							{9,"Liliana","Perez",41589.36,"EEE123",2,0},
-							{23,"Kiara","Alvarez",68545,"BBB123",1,1}};
+	Passenger array_AF[7] = {{1,"Olga","Fernandez",23200,"AAA123",3,1,0},
+							{16,"Jorge Luis","Rodriguez Silva",84250.25,"BBB123",2,1,0},
+							{22,"Fabricio Alejandro","Molina",12476,"CCC123",1,0,0},
+							{21,"Ramiro","Somoza",22750,"DDD123",2,1,0},
+							{31,"Marcelo Daniel","Gallardo",91218,"AAA123",2,1,0},
+							{9,"Liliana","Perez Benitez",41589.36,"EEE123",2,0,0},
+							{23,"Kiara","Alvarez Cossini",68545,"BBB123",1,1,0}};
 
 	typePassenger types[3] = {{1,"Menor"},{2,"Adulto"},{3,"Jubilado"}};
+	statusFlight status[2] = {{0,"Cancelado"},{1,"Activo"}};
 
 	initPassengers(arrayPassengers, QTY_PASSENGER);
 
@@ -88,7 +89,7 @@ int main(void) {
 				case 4:
 					if(freePosition > 0)
 					{
-						inform(arrayPassengers, QTY_PASSENGER, types);
+						inform(arrayPassengers, QTY_PASSENGER, types, status);
 					}
 					else
 					{
@@ -96,8 +97,8 @@ int main(void) {
 					}
 					break;
 				case 5:
-					sortPassengers(array_AF, 7, 1);
-					printPassengers(array_AF, types,7);
+					sortPassengersByCode(array_AF, 7, 1);
+					printPassengers(array_AF, types, status, 7);
 					break;
 			}
 		}

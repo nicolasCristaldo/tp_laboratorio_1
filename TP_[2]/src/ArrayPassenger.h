@@ -28,6 +28,12 @@ typedef struct
 	char description[20];
 }typePassenger;
 
+typedef struct
+{
+	int status;
+	char description[20];
+}statusFlight;
+
 /**
  * pone la bandera isEmpty en TRUE para indicar que todas las posiciones estan vacias
  * @param list puntero a array de pasajeros
@@ -104,10 +110,11 @@ int sortPassengers(Passenger* list, int len, int order);
  * imprime el array de pasajeros
  * @param list puntero a array de pasajeros
  * @param types puntero a array de tipos de pasajero
+ * @param status puntero a array de estados
  * @param length tamaño del array
  * @return
  */
-int printPassengers(Passenger* list, typePassenger* types, int length);
+int printPassengers(Passenger* list, typePassenger* types,statusFlight* status, int length);
 /**
  * ordena el array de forma creciente o decreciente teniendo en cuenta el codigo
  * @param list puntero a array de pasajeros
@@ -121,9 +128,10 @@ int sortPassengersByCode(Passenger* list, int len, int order);
  * @param list  puntero a array de pasajeros
  * @param len tamaño del array
  * @param types puntero a array de tipos de pasajero
+ * @param status puntero a array de estados
  * @return
  */
-int inform(Passenger* list, int len, typePassenger* types);
+int inform(Passenger* list, int len, typePassenger* types, statusFlight* status);
 /**
  * busca una posicion libre en el array
  * @param list puntero a array de pasajeros
