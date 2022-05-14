@@ -1,7 +1,19 @@
 /********************************************************************
 *Programa: TP 2
 *
-*Objetivo:
+*Objetivo: Una aerolínea requiere un sistema para administrar los pasajeros de cada vuelo. Se sabe que
+* no puede tener más de 2000 pasajeros.
+*
+* 1. ALTAS: Se debe permitir ingresar un pasajero calculando automáticamente el
+* número de Id. El resto de los campos se le pedirá al usuario.
+* 2. MODIFICAR: Se ingresará el Número de Id, permitiendo modificar: o Nombre o Apellido
+* o Precio o Tipo de pasajero o Código de vuelo
+* 3. BAJA: Se ingresará el Número de Id y se eliminará el empleado del sistema.
+* 4. INFORMAR:
+* 1. Listado de los pasajeros ordenados alfabéticamente por Apellido y Tipo de pasajero.
+* 2. Total y promedio de los precios de los pasajes, y cuántos pasajeros superan el precio
+* promedio.
+* 3. Listado de los pasajeros por Código de vuelo y estados de vuelos ‘ACTIVO’
 *
 *mayo 2022
 *Autor: Nicolas Cristaldo
@@ -14,7 +26,7 @@
 #include "utn.h"
 #include "ArrayPassenger.h"
 
-#define QTY_PASSENGER 3
+#define QTY_PASSENGER 2000
 
 int main(void) {
 	setbuf(stdout,NULL);
@@ -38,7 +50,7 @@ int main(void) {
 
 	do
 	{
-		res = utn_getNumero(&selectedNum, "Seleccione una opcion:\n1-ALTAS. \n2-MODIFICAR. \n3-BAJA. \n4-INFORMAR.\n5-ALTA FORZADA.\n", "Error.\n", 1, 5, 3);
+		res = utn_getNumero(&selectedNum, "Seleccione una opcion:\n1-ALTAS. \n2-MODIFICAR. \n3-BAJA. \n4-INFORMAR.\n5-ALTA FORZADA.\n6-CERRAR.\n", "Error.\n", 1, 6, 3);
 		if(!res)
 		{
 			switch(selectedNum)
@@ -50,7 +62,7 @@ int main(void) {
 					}
 					else
 					{
-						printf("\nNo hay mas espacios disponibles.\n");
+						printf("\nNo hay mas espacios disponibles.\n\n");
 					}
 					break;
 				case 2:
@@ -60,7 +72,7 @@ int main(void) {
 					}
 					else
 					{
-						printf("\nNo hay pasajeros cargados.\n");
+						printf("\nNo hay pasajeros cargados.\n\n");
 					}
 					break;
 				case 3:
@@ -70,7 +82,7 @@ int main(void) {
 					}
 					else
 					{
-						printf("\nNo hay pasajeros cargados.\n");
+						printf("\nNo hay pasajeros cargados.\n\n");
 					}
 					break;
 				case 4:
@@ -80,7 +92,7 @@ int main(void) {
 					}
 					else
 					{
-						printf("\nNo hay pasajeros cargados.\n");
+						printf("\nNo hay pasajeros cargados.\n\n");
 					}
 					break;
 				case 5:
@@ -89,6 +101,6 @@ int main(void) {
 					break;
 			}
 		}
-	}while(1);
+	}while(selectedNum != 6);
 	return EXIT_SUCCESS;
 }

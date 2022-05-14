@@ -125,4 +125,3 @@ int esSoloLetra(char *pResultado)
 
 	return ret;
 }
-

@@ -280,7 +280,6 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 {
 	int ret = -1;
-	char res;
 	int id = *actualId;
 	char name[51];
 	char lastName[51];
@@ -335,10 +334,7 @@ int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 			addPassenger(list, len, id, name, lastName, price, type, flyCode, status, &position);
 			id++;
 
-			printf("desea continuar? s/n ");
-			fflush(stdin);
-			scanf("%c", &res);
-		}while(res == 's');
+		}while(utn_confirmar("\nDesea continuar? s/n ", "\nRespuesta no valida.\n", 3) == 1);
 		*actualId = id;
 		*pos = position;
 	}

@@ -49,6 +49,14 @@ int utn_getNombre(char* cResultado,char* mensaje,char* mensajeError,int minimo,i
  * @return
  */
 int utn_getAlfanumerico(char* cResultado,char* mensaje,char* mensajeError,int minimo,int maximo,int reintentos);
+/**
+ * pide una letra (s o n) al usuario
+ * @param mensaje puntero a char, mensaje para pedir la respuesta
+ * @param mensajeError puntero a char, mensaje de error
+ * @param reintentos cantidad de reintentos
+ * @return retorna 1 si la respuesta fue s, 0 si fue n, -1 si hubo un error o no se ingreso una respuesta valida
+ */
+int utn_confirmar(char* mensaje,char* mensajeError,int reintentos);
 
 #ifndef UTN_H_
 #define UTN_H_
