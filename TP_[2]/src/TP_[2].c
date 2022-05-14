@@ -69,7 +69,7 @@ int main(void) {
 				case 2:
 					if(freePosition > 0)
 					{
-						modifyPassenger(arrayPassengers, QTY_PASSENGER, actualId-1);
+						modifyPassenger(arrayPassengers, types, status, QTY_PASSENGER, actualId-1);
 					}
 					else
 					{
@@ -79,7 +79,7 @@ int main(void) {
 				case 3:
 					if(freePosition > 0)
 					{
-						deletePassenger(arrayPassengers, QTY_PASSENGER, actualId-1, &freePosition);
+						deletePassenger(arrayPassengers, types, status, QTY_PASSENGER, actualId-1, &freePosition);
 					}
 					else
 					{

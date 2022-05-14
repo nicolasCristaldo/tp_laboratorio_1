@@ -84,20 +84,24 @@ int removePassenger(Passenger* list, int len, int id);
 /**
  * pide al usuario un id, si se encuentra disponible elimina de forma logica a quien tenga ese id
  * @param list puntero a array de pasajeros
+ * @param types puntero a array de tipos de pasajero
+ * @param status puntero a array de estados de pasajero
  * @param len tamaño del array
  * @param actualId numero de id mas grande hasta el momento
  * @param pos puntero a int, retorna 0 para señalar que hay un espacio libre
  * @return
  */
-int deletePassenger(Passenger* list, int len, int actualId,int* pos);
+int deletePassenger(Passenger* list, typePassenger* types, statusFlight* status,int len, int actualId,int* pos);
 /**
  * pide el id de un pasajero y modifica el campo deseado por el usuario
  * @param list puntero a array de pasajeros
+ * @param types puntero a array de tipos de pasajero
+ * @param status puntero a array de estados de pasajero
  * @param len tamaño del array
  * @param actualId numero de id mas grande hasta el momento
  * @return
  */
-int modifyPassenger(Passenger* list, int len, int actualId);
+int modifyPassenger(Passenger* list,typePassenger* types, statusFlight* status, int len, int actualId);
 /**
  * ordena el array de forma creciente o decreciente teniendo en cuenta el nombre
  * @param list puntero a array de pasajeros

@@ -11,22 +11,103 @@
 #include <string.h>
 #include "arraysChar.h"
 
+/**
+ * ordena de manera ascendente un array de pasajeros por su apellido y tipo.
+ * @param list puntero a array de pasajeros.
+ * @param len tamaño del array.
+ * @return retorna -1 en caso de error, 0 si todo ok.
+ */
 static int sortUpName(Passenger* list, int len);
+/**
+ * ordena de manera descendente un array de pasajeros por su apellido y tipo.
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @return retorna -1 en caso de error, 0 si todo ok.
+ */
 static int sortDownName(Passenger* list, int len);
+/**
+ * ordena de manera ascendente un array de pasajeros por su codigo y estado de vuelo activo
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @return retorna -1 en caso de error, 0 si todo ok.
+ */
 static int sortUpCode(Passenger* list, int len);
+/**
+ * ordena de manera ascendente un array de pasajeros por su codigo y estado de vuelo activo
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @return retorna -1 en caso de error, 0 si todo ok.
+ */
 static int sortDownCode(Passenger* list, int len);
+/**
+ * imprime los datos de un pasajero
+ * @param id id del pasajero
+ * @param name nombre del pasajero
+ * @param lastName apellido del pasajero
+ * @param flyCode codigo del pasajero
+ * @param price precio del pasajero
+ * @param type tipo de pasajero
+ * @param status estado de vuelo del pasajero
+ */
 static void printPassenger(int id, char* name, char* lastName, char* flyCode, float price, char* type, char* status);
+/**
+ * calcula el precio total de todos los pasajeros y el promedio por pasajero
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @param total puntero a float, suma de todos los precios
+ * @param average puntero a float, promedio de todos los precios
+ * @param aboveAverage puntero a int, personas por encima del promedio
+ * @return retorna -1 en caso de error, 0 si todo ok.
+ */
 static int calcPrices(Passenger* list, int len,float* total, float* average, int* aboveAverage);
+/**
+ * calcula la cantidad de pasajeros por encima del promedio de precios
+ * @param list puntero a array de pasajeros
+ * @param len tamaño del array
+ * @param average puntero a float, promedio de todos los precios
+ * @return retorna -1 en caso de error o la cantidad de personas por encima del promedio en caso contrario
+ */
 static int aboveAveragePassengers(Passenger* list, int len, float* average);
+/**
+ * busca la descripcion dentro de un array de tipo typepassenger mediante un numero recibido como parametro
+ * @param types puntero a array de tipos de pasajero
+ * @param number numero a buscar dentro del array
+ * @return retorna -1 en caso de error o la posicion del numero dentro del array en caso contrario
+ */
 static int findType(typePassenger* types, int number);
+/**
+ * busca la descripcion dentro de un array de tipo statusFlight mediante un numero recibido como parametro
+ * @param flyStatus puntero a array de tipo estados de pasajero
+ * @param number numero a buscar dentro del array
+ * @return retorna -1 en caso de error o la posicion del numero dentro del array en caso contrario
+ */
 static int findStatus(statusFlight* flyStatus, int number);
+/**
+ * descuenta a un precio en porcentaje recibido como parametro
+ * @param price puntero a float, precio a descontar
+ * @param percentage porcentaje de descuento
+ * @return retorna -1 en caso de error, 0 si todo ok.
+ */
+static int discountPrices(float* price, int percentage);
+
+static int discountPrices(float* price, int percentage)
+{
+	float ret = -1;
+
+	if(price > 0 && percentage > 0)
+	{
+		ret = 0;
+		*price = *price - *price * percentage / 100;
+	}
+	return ret;
+}
 
 static int findType(typePassenger* types, int number)
 {
 	int ret = -1;
 	int i;
 
-	if(number >= 0)
+	if(types != NULL && number >= 0)
 	{
 		for(i = 0; i < 3; i++)
 		{
@@ -45,7 +126,7 @@ static int findStatus(statusFlight* flyStatus, int number)
 	int ret = -1;
 	int i;
 
-	if(number >= 0)
+	if(flyStatus != NULL && number >= 0)
 	{
 		for(i = 0; i < 2; i++)
 		{
@@ -119,6 +200,7 @@ static int sortUpName(Passenger* list, int len)
 
 	if(list != NULL && len > 0)
 	{
+		ret = 0;
 		max = len -1;
 		do
 		{
@@ -351,7 +433,7 @@ int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 			{
 				break;
 			}
-			if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3) == -1)
+			if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 5000, 3000000, 3) == -1)
 			{
 				break;
 			}
@@ -369,6 +451,15 @@ int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 			if(utn_getNumero(&status,"\nIngrese estado de vuelo\n0-Inactivo.\n1-Activo ", "\nError.\n", 0, 1, 3) == -1)
 			{
 				break;
+			}
+
+			if(type == 1)
+			{
+				discountPrices(&price, 10);
+			}
+			else if(type == 3)
+			{
+				discountPrices(&price, 15);
 			}
 
 			addPassenger(list, len, id, name, lastName, price, type, flyCode, status, &position);
@@ -418,7 +509,7 @@ int removePassenger(Passenger* list, int len, int id)
 	return ret;
 }
 
-int deletePassenger(Passenger* list, int len, int actualId, int* pos)
+int deletePassenger(Passenger* list,typePassenger* types, statusFlight* status, int len, int actualId, int* pos)
 {
 	int ret = -1;
 	int id;
@@ -426,17 +517,22 @@ int deletePassenger(Passenger* list, int len, int actualId, int* pos)
 
 	if(list != NULL && len > 0)
 	{
-		res = utn_getNumero(&id, "\nIngrese id del pasajero: ", "\nError\n", 1, actualId, 3);
+		printPassengers(list, types, status, len);
+
+		res = utn_getNumero(&id, "\nIngrese id del pasajero a dar de baja: ", "\nError\n", 1, actualId, 3);
 		if(!res)
 		{
-			if(removePassenger(list, len, id) != -1)
+			if(utn_confirmar("\nEstá seguro? s/n\n", "\nRespuesta no valida.\n", 3) == 1)
 			{
-				ret = 0;
-				*pos = *pos -1;
-			}
-			else
-			{
-				printf("\nNo se encontró el id del pasajero.\n");
+				if(removePassenger(list, len, id) != -1)
+				{
+					ret = 0;
+					*pos = *pos -1;
+				}
+				else
+				{
+					printf("\nNo se encontró el id del pasajero.\n");
+				}
 			}
 		}
 	}
@@ -444,7 +540,7 @@ int deletePassenger(Passenger* list, int len, int actualId, int* pos)
 	return ret;
 }
 
-int modifyPassenger(Passenger* list, int len, int actualId)
+int modifyPassenger(Passenger* list,typePassenger* types, statusFlight* status, int len, int actualId)
 {
 	int ret = -1;
 	int id;
@@ -459,50 +555,54 @@ int modifyPassenger(Passenger* list, int len, int actualId)
 
 	if(list != NULL && len > 0)
 	{
-		res = utn_getNumero(&id, "\nIngrese id del pasajero: ", "\nError.\n", 1, actualId, 3);
+		printPassengers(list, types, status, len);
+		res = utn_getNumero(&id, "\nIngrese id del pasajero a modificar: ", "\nError.\n", 1, actualId, 3);
 
 		if(!res)
 		{
-			position = findPassengerById(list, len, id);
-
-			if(position >= 0)
+			if(utn_confirmar("\nEstá seguro? s/n\n", "\nRespuesta no valida.\n", 3) == 1)
 			{
-				res = utn_getNumero(&camp, "\nIngrese campo a modificar: \n1-Nombre.\n2-Apellido.\n3-Precio.\n4-Tipo.\n5-Codigo.", "\nError.\n", 1, 5, 3);
-				if(!res)
+				position = findPassengerById(list, len, id);
+
+				if(position >= 0)
 				{
-					ret = 0;
-					switch(camp)
+					res = utn_getNumero(&camp, "\nIngrese campo a modificar: \n1-Nombre.\n2-Apellido.\n3-Precio.\n4-Tipo.\n5-Codigo.", "\nError.\n", 1, 5, 3);
+					if(!res)
 					{
-						case 1:
-							if(utn_getNombre(name, "\nIngrese su nombre: ", "\nError.\n",3, 51, 3) == 0)
-							{
-								strncpy(list[position].name,name,sizeof(list[position].name));
-							}
-							break;
-						case 2:
-							if(utn_getNombre(lastName, "\nIngrese su apellido: ", "\nError.\n",3, 51, 3) == 0)
-							{
-								strncpy(list[position].lastName,lastName,sizeof(list[position].lastName));
-							}
-							break;
-						case 3:
-							if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3) == 0)
-							{
-								list[position].price = price;
-							}
-							break;
-						case 4:
-							if(utn_getNumero(&type,"\nIngrese el tipo de pasajero\n1-Menor\n2-Adulto\n3-Jubilado ", "\nError.\n", 1, 3, 3) == 0)
-							{
-								list[position].typePassenger = type;
-							}
-							break;
-						case 5:
-							if(utn_getAlfanumerico(flyCode, "\nIngrese codigo de vuelo: ", "\nError.\n", 4, 10, 3) == 0)
-							{
-								strncpy(list[position].flyCode,flyCode,sizeof(list[position].flyCode));
-							}
-							break;
+						ret = 0;
+						switch(camp)
+						{
+							case 1:
+								if(utn_getNombre(name, "\nIngrese su nombre: ", "\nError.\n",3, 51, 3) == 0)
+								{
+									strncpy(list[position].name,name,sizeof(list[position].name));
+								}
+								break;
+							case 2:
+								if(utn_getNombre(lastName, "\nIngrese su apellido: ", "\nError.\n",3, 51, 3) == 0)
+								{
+									strncpy(list[position].lastName,lastName,sizeof(list[position].lastName));
+								}
+								break;
+							case 3:
+								if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3) == 0)
+								{
+									list[position].price = price;
+								}
+								break;
+							case 4:
+								if(utn_getNumero(&type,"\nIngrese el tipo de pasajero\n1-Menor\n2-Adulto\n3-Jubilado ", "\nError.\n", 1, 3, 3) == 0)
+								{
+									list[position].typePassenger = type;
+								}
+								break;
+							case 5:
+								if(utn_getAlfanumerico(flyCode, "\nIngrese codigo de vuelo: ", "\nError.\n", 4, 10, 3) == 0)
+								{
+									strncpy(list[position].flyCode,flyCode,sizeof(list[position].flyCode));
+								}
+								break;
+						}
 					}
 				}
 			}
@@ -536,6 +636,7 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 
 	if(list != NULL && len > 0 && (order == 0 || order == 1))
 	{
+		ret = 0;
 		if(order == 1)
 		{
 			sortUpCode(list, len);
