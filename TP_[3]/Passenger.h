@@ -67,7 +67,12 @@ int Passenger_ComparePassengersByName(void* this1,void* this2);
  * @param this puntero a pasajero. pasajero a mostrar.
  */
 void Passenger_PrintPassenger(Passenger* this);
-
+/**
+ * \brief compara 2 pasajeros.
+ * @param this1 puntero a void, es asignado a un puntero a pasajero para poder ser coparado.
+ * @param this2 puntero a void, es asignado a un puntero a pasajero para poder ser coparado.
+ * @return retorna 1 si el codigo o precio del primer pasajero es mayor al del segundo, -1 en caso contrario o si se produjo un error.
+ */
 int Passenger_ComparePassengersByCode(void* this1,void* this2);
 
 /******************** SETTERS Y GETTERS ***************************/

@@ -320,10 +320,8 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListPassenger)
 		}
 		else
 		{
-			if(parser_WritePassengerBinary(pFile, pArrayListPassenger) == 0)
-			{
-				ret = 0;
-			}
+			parser_WritePassengerBinary(pFile, pArrayListPassenger);
+			ret = 0;
 			fclose(pFile);
 		}
 	}

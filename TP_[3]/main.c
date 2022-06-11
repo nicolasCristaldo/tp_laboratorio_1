@@ -26,6 +26,7 @@ int main()
 	setbuf(stdout, NULL);
     int option;
     int lenAux;
+    int flag = 0;
 
     LinkedList* listaPasajeros = ll_newLinkedList();
     do{
@@ -115,7 +116,10 @@ int main()
 			case 8:
 				if(ll_len(listaPasajeros) > 0)
 				{
-					controller_saveAsText("data.csv", listaPasajeros);
+					if(controller_saveAsText("data.csv", listaPasajeros) == 0)
+					{
+						flag = 1;
+					}
 				}
 				else
 				{
@@ -125,7 +129,10 @@ int main()
 			case 9:
 				if(ll_len(listaPasajeros) > 0)
 				{
-					controller_saveAsBinary("data.bin", listaPasajeros);
+					if(controller_saveAsBinary("data.bin", listaPasajeros)==0)
+					{
+						flag = 1;
+					}
 				}
 				else
 				{
@@ -133,10 +140,18 @@ int main()
 				}
 				break;
 			case 10:
-				ll_deleteLinkedList(listaPasajeros);
+				if(flag == 1)
+				{
+					ll_deleteLinkedList(listaPasajeros);
+					option = 11;
+				}
+				else
+				{
+					printf("\nSe debe realizar algún guardado de archivo para poder salir.\n");
+				}
 				break;
         }
-    }while(option != 10);
+    }while(option != 11);
     return 0;
 }
 
