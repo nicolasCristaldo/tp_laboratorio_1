@@ -248,13 +248,6 @@ int controller_ListPassenger(LinkedList* pArrayListPassenger)
     return ret;
 }
 
-/** \brief Ordenar pasajeros
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
- *
- */
 int controller_sortPassenger(LinkedList* pArrayListPassenger)
 {
    int ret = -1;

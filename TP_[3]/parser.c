@@ -57,12 +57,7 @@ int parser_PassengerFromBinary(FILE* pFile , LinkedList* pArrayListPassenger)
 				if(pPassenger != NULL)
 				{
 					ret = 0;
-					if(ll_add(pArrayListPassenger, pPassenger) == 0)
-					{
-						printf("%d  %s  %s  %f  %s %s-",pPassenger->id,pPassenger->nombre,pPassenger->apellido,
-								pPassenger->precio,pPassenger->codigoVuelo,pPassenger->tipoPasajero);
-						printf("%s\n",pPassenger->estadoVuelo);
-					}
+					ll_add(pArrayListPassenger, pPassenger);
 				}
 			}
 		}while(feof(pFile) == 0);
