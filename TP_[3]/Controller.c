@@ -57,52 +57,9 @@ int controller_loadFromBinary(char* path , LinkedList* pArrayListPassenger)
 int controller_addPassenger(LinkedList* pArrayListPassenger)
 {
 	int ret = -1;
-	Passenger* newPassenger = NULL;
-	char name[50];
-	char lastName[50];
-	float price;
-	char flyCode[8];
-	char type[15];
-	char status[15];
-	int id;
 	if(pArrayListPassenger != NULL)
 	{
-		if(utn_getNombre(name, "\nIngrese el nombre: ","\nError.\n",2,50,5) == -1)
-		{
-			return ret;
-		}
-		if(utn_getNombre(lastName, "\nIngrese el apellido: ", "\nError.\n",2,50,5) == -1)
-		{
-			return ret;
-		}
-		if(utn_getFlotante(&price, "\nIngrese el precio: ",  "\nError.\n",3000,150000,5) == -1)
-		{
-			return ret;
-		}
-		if(obtenerTipoPasajero(type)!= 0)
-		{
-			return ret;
-		}
-
-		if(utn_getAlfanumerico(flyCode, "\nIngrese el codigo de vuelo: ", "\nError.\n",4,7,5) == -1)
-		{
-			return ret;
-		}
-		if(obtenerEstadoVuelo(status) != 0)
-		{
-			return ret;
-		}
-
-		id = controller_IdMax(pArrayListPassenger) +1;
-
-		newPassenger = Passenger_newParametros(id, name, type, lastName, price, flyCode, status);
-		if(newPassenger != NULL)
-		{
-			if(ll_add(pArrayListPassenger, newPassenger) == 0)
-			{
-				ret = 0;
-			}
-		}
+		ret = Passenger_addPassenger(pArrayListPassenger);
 	}
     return ret;
 }
@@ -110,83 +67,9 @@ int controller_addPassenger(LinkedList* pArrayListPassenger)
 int controller_editPassenger(LinkedList* pArrayListPassenger)
 {
     int ret = -1;
-    int id;
-    int idMax;
-    int index;
-    int res;
-    char array[50];
-    float price;
-    Passenger* passengerAux = NULL;
     if(pArrayListPassenger != NULL)
     {
-    	idMax = controller_IdMax(pArrayListPassenger);
-    	if(utn_getNumero(&id, "\nIngrese el id del Pasajero: ", "\nError.\n", 1, idMax, 5) == 0)
-		{
-			index = controller_FindById(pArrayListPassenger, id);
-			passengerAux = ll_get(pArrayListPassenger,index);
-
-			if(index != -1 && passengerAux != NULL)
-			{
-				printf("\n%-10s %-20s %-20s %-15s %-15s %-20s %-20s","ID","NOMBRE","APELLIDO","PRECIO","CODIGO","TIPO","ESTADO");
-				Passenger_PrintPassenger(passengerAux);
-				if(utn_confirmar("\n¿Desea modificar este pasajero? s/n ", "\nRespuesta invalida.\n", 5) == 1)
-				{
-					if(utn_getNumero(&res, "\nIngrese campo a modificar:\n1 - NOMBRE.\n2 - APELLIDO.\n3 - ESTADO DE VUELO.\n4 - PRECIO.\n"
-							"5 - CODIGO DE VUELO.\n6 - TIPO DE PASAJERO.\n", "\nError\n", 1, 6, 5) == 0)
-					{
-						switch(res)
-						{
-						case 1:
-							if(utn_getNombre(array, "\nIngrese el nombre: ","\nError.\n",2,50,5) == 0)
-							{
-								Passenger_setNombre(passengerAux, array);
-								ret = 0;
-							}
-							break;
-						case 2:
-							if(utn_getNombre(array, "\nIngrese el apellido: ", "\nError.\n",2,50,5) == 0)
-							{
-								Passenger_setApellido(passengerAux, array);
-								ret = 0;
-							}
-							break;
-						case 3:
-							if(obtenerEstadoVuelo(array) == 0)
-							{
-								Passenger_setEstadoVuelo(passengerAux, array);
-								ret = 0;
-							}
-							break;
-						case 4:
-							if(utn_getFlotante(&price, "\nIngrese el precio: ",  "\nError.\n",3000,150000,5) == 0)
-							{
-								Passenger_setPrecio(passengerAux, price);
-								ret = 0;
-							}
-							break;
-						case 5:
-							if(utn_getAlfanumerico(array, "\nIngrese el codigo de vuelo: ", "\nError.\n",4,7,5) == 0)
-							{
-								Passenger_setCodigoVuelo(passengerAux, array);
-								ret = 0;
-							}
-							break;
-						case 6:
-							if(obtenerTipoPasajero(array) == 0)
-							{
-								Passenger_setTipoPasajero(passengerAux, array);
-								ret = 0;
-							}
-							break;
-						}
-					}
-				}
-			}
-			else
-			{
-				printf("\nNo se encontró el id.\n");
-			}
-		}
+    	ret = Passenger_editPassenger(pArrayListPassenger);
     }
 
     return ret;
@@ -195,34 +78,9 @@ int controller_editPassenger(LinkedList* pArrayListPassenger)
 int controller_removePassenger(LinkedList* pArrayListPassenger)
 {
 	int ret = -1;
-	int id;
-	int idMax;
-	int index;
-	Passenger* passengerAux = NULL;
 	if(pArrayListPassenger != NULL)
 	{
-		idMax = controller_IdMax(pArrayListPassenger);
-		if(utn_getNumero(&id, "\nIngrese el id del Pasajero a eliminar: ", "\nError.\n", 1,idMax, 5) == 0)
-		{
-			index = controller_FindById(pArrayListPassenger, id);
-			passengerAux = ll_get(pArrayListPassenger,index);
-			if(id != -1)
-			{
-				printf("\n%-10s %-20s %-20s %-15s %-15s %-20s %-20s","ID","NOMBRE","APELLIDO","PRECIO","CODIGO","TIPO","ESTADO");
-				Passenger_PrintPassenger(passengerAux);
-				if(utn_confirmar("\n¿desea eliminar este pasajero? s/n ", "\nRespuesta invalida.\n", 5) == 1)
-				{
-					Passenger_delete(passengerAux);
-					ll_remove(pArrayListPassenger, index);
-					printf("\nSe eliminó el pasajero.\n");
-					ret = 0;
-				}
-			}
-			else
-			{
-				printf("\nNo se encontró el id.\n");
-			}
-		}
+		ret = passenger_removePassenger(pArrayListPassenger);
 	}
 
     return ret;
@@ -268,7 +126,7 @@ int controller_sortPassenger(LinkedList* pArrayListPassenger)
 		   }
 		   if(utn_getNumero(&order, "\nOrdenar pasajeros:\n1 - Ascendentemente.\n0 - descendentemente.\n", "\nError.\n", 0, 1, 5) == 0)
 		   {
-			   printf("\nEsto podría tardar...\n");
+			   printf("\nEsto podría tardar...\n\n");
 			   ll_sort(pArrayListPassenger, pFuncion, order);
 			   ret = 0;
 		   }

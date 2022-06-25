@@ -80,7 +80,7 @@ int main()
             	}
             	else
 				{
-					printf("\nNo hay pasajeros cargados.\n");
+					printf("\nNo hay pasajeros cargados.\n\n");
 				}
             	break;
             case 5:
@@ -90,7 +90,7 @@ int main()
             	}
             	else
 				{
-					printf("\nNo hay pasajeros cargados.\n");
+					printf("\nNo hay pasajeros cargados.\n\n");
 				}
 				break;
 			case 6:
@@ -100,7 +100,7 @@ int main()
 				}
 				else
 				{
-					printf("\nNo hay pasajeros cargados.\n");
+					printf("\nNo hay pasajeros cargados.\n\n");
 				}
 				break;
 			case 7:
@@ -110,7 +110,7 @@ int main()
 				}
 				else
 				{
-					printf("\nNo hay pasajeros cargados.\n");
+					printf("\nNo hay pasajeros cargados.\n\n");
 				}
 				break;
 			case 8:
@@ -123,7 +123,7 @@ int main()
 				}
 				else
 				{
-					printf("\nNo hay pasajeros cargados.\n");
+					printf("\nNo hay pasajeros cargados.\n\n");
 				}
 				break;
 			case 9:
@@ -136,7 +136,7 @@ int main()
 				}
 				else
 				{
-					printf("\nNo hay pasajeros cargados.\n");
+					printf("\nNo hay pasajeros cargados.\n\n");
 				}
 				break;
 			case 10:
@@ -147,7 +147,7 @@ int main()
 				}
 				else
 				{
-					printf("\nSe debe realizar algún guardado de archivo para poder salir.\n");
+					printf("\nSe debe realizar algún guardado de archivo para poder salir.\n\n");
 				}
 				break;
         }

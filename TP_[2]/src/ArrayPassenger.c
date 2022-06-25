@@ -111,7 +111,7 @@ static int findType(typePassenger* types, int number)
 	{
 		for(i = 0; i < 3; i++)
 		{
-			if(number == types[i].idType)
+			if(number == (*(types+i)).idType)
 			{
 				ret = i;
 				break;
@@ -130,7 +130,7 @@ static int findStatus(statusFlight* flyStatus, int number)
 	{
 		for(i = 0; i < 2; i++)
 		{
-			if(number == flyStatus[i].status)
+			if(number == (*(flyStatus+i)).status)
 			{
 				ret = i;
 				break;
@@ -150,7 +150,7 @@ static int aboveAveragePassengers(Passenger* list, int len, float* average)
 		ret = 0;
 		for(i = 0; i < len; i++)
 		{
-			if(list[i].isEmpty == 0 && *average < list[i].price)
+			if((*(list+i)).isEmpty == 0 && *average < (*(list+i)).price)
 			{
 				ret++;
 			}
@@ -171,10 +171,10 @@ static int calcPrices(Passenger* list, int len,float* total, float* average, int
 		ret = 0;
 		for(i = 0; i < len; i++)
 		{
-			if(list[i].isEmpty == 0)
+			if((*(list+i)).isEmpty == 0)
 			{
 				positions++;
-				cont = cont + list[i].price;
+				cont = cont + (*(list+i)).price;
 			}
 		}
 
@@ -208,19 +208,19 @@ static int sortUpName(Passenger* list, int len)
 
 			for(i = 0; i < max ; i++)
 			{
-				if(list[i].typePassenger > list[i+1].typePassenger)
+				if((*(list+i)).typePassenger > (*(list+i+1)).typePassenger)
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
-				else if((strcmp(list[i].lastName, list[i+1].lastName) > 0) && (list[i].typePassenger == list[i+1].typePassenger))
+				else if((strcmp((*(list+i)).lastName, (*(list+i+1)).lastName) > 0) && ((*(list+i)).typePassenger == (*(list+i+1)).typePassenger))
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
 			}
 			max--;
@@ -246,19 +246,19 @@ static int sortDownName(Passenger* list, int len)
 
 			for(i = 0; i < max ; i++)
 			{
-				if(list[i].typePassenger < list[i+1].typePassenger)
+				if((*(list+i)).typePassenger < (*(list+i+1)).typePassenger)
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
-				else if((strcmp(list[i].lastName, list[i+1].lastName) < 0) && (list[i].typePassenger == list[i+1].typePassenger))
+				else if((strcmp((*(list+i)).lastName, (*(list+i+1)).lastName) < 0) && ((*(list+i)).typePassenger == (*(list+i+1)).typePassenger))
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
 			}
 			max--;
@@ -284,19 +284,19 @@ static int sortDownCode(Passenger* list, int len)
 
 			for(i = 0; i < max; i++)
 			{
-				if(list[i].statusFlight < list[i+1].statusFlight)
+				if((*(list+i)).statusFlight < (*(list+i+1)).statusFlight)
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
-				else if((strcmp(list[i].flyCode, list[i+1].flyCode) < 0) && (list[i].statusFlight == list[i+1].statusFlight))
+				else if((strcmp((*(list+i)).flyCode, (*(list+i+1)).flyCode) < 0) && ((*(list+i)).statusFlight == (*(list+i+1)).statusFlight))
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
 			}
 			max--;
@@ -323,19 +323,19 @@ static int sortUpCode(Passenger* list, int len)
 			for(i = 0; i < max; i++)
 			{
 
-				if(list[i].statusFlight < list[i+1].statusFlight)
+				if((*(list+i)).statusFlight < (*(list+i+1)).statusFlight)
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
-				else if((strcmp(list[i].flyCode, list[i+1].flyCode) > 0) && (list[i].statusFlight == list[i+1].statusFlight))
+				else if((strcmp((*(list+i)).flyCode, (*(list+i+1)).flyCode) > 0) && ((*(list+i)).statusFlight == (*(list+i+1)).statusFlight))
 				{
 					flag = 1;
-					aux = list[i];
-					list[i] = list[i+1];
-					list[i+1] = aux;
+					aux = *(list+i);
+					*(list+i) = *(list+i+1);
+					*(list+i+1) = aux;
 				}
 			}
 			max--;
@@ -355,40 +355,41 @@ int initPassengers(Passenger* list, int len)
 
 		for(i = 0; i < len; i++)
 		{
-			list[i].isEmpty = 1;
-			list[i].id = -1;
-			strcpy(list[i].name,"");
-			strcpy(list[i].lastName,"");
-			strcpy(list[i].flyCode,"");
-			list[i].price = -1;
-			list[i].typePassenger = -1;
-			list[i].statusFlight = -1;
+			(*(list+i)).isEmpty = 1;
+			(*(list+i)).id = -1;
+			strcpy((*(list+i)).name,"");
+			strcpy((*(list+i)).lastName,"");
+			strcpy((*(list+i)).flyCode,"");
+			(*(list+i)).price = -1;
+			(*(list+i)).typePassenger = -1;
+			(*(list+i)).statusFlight = -1;
 		}
 
 	}
 	return ret;
 }
 
-int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],float price,int typePassenger, char flycode[], int status, int* position)
+int addPassenger(Passenger* list, int len, char* name,char* lastName,float price,int typePassenger, char* flycode, int status, int* position)
 {
 	int ret = -1;
 	int pos;
-
-	if(position != NULL && list != NULL && len > 0 && id > 0 && name != NULL && lastName != NULL && price > 0 && (status == 0 || status == 1) && (typePassenger >= 1 && typePassenger <= 3) && flycode > 0)
+	int id;
+	if(position != NULL && list != NULL && len > 0 && name != NULL && lastName != NULL && price > 0 && (status == 0 || status == 1) && (typePassenger >= 1 && typePassenger <= 3) && flycode > 0)
 	{
 		ret = 0;
 
 		pos = findFreePosition(list, len);
-		if(pos != -1)
+		id = findFreeId(list, len);
+		if(pos != -1 && id != -1)
 		{
-			list[pos].isEmpty = 0;
-			list[pos].id = id;
-			strncpy(list[pos].name,name,sizeof(list[pos].name));
-			strncpy(list[pos].lastName,lastName,sizeof(list[pos].lastName));
-			list[pos].price = price;
-			list[pos].typePassenger = typePassenger;
-			strncpy(list[pos].flyCode,flycode,sizeof(list[pos].flyCode));
-			list[pos].statusFlight = status;
+			(*(list+pos)).isEmpty = 0;
+			(*(list+pos)).id = id;
+			strncpy((*(list+pos)).name,name,sizeof((*(list+pos)).name));
+			strncpy((*(list+pos)).lastName,lastName,sizeof((*(list+pos)).lastName));
+			(*(list+pos)).price = price;
+			(*(list+pos)).typePassenger = typePassenger;
+			strncpy((*(list+pos)).flyCode,flycode,sizeof((*(list+pos)).flyCode));
+			(*(list+pos)).statusFlight = status;
 			*position = *position + 1;
 		}
 		else
@@ -399,10 +400,9 @@ int addPassenger(Passenger* list, int len, int id, char name[],char lastName[],f
 	return ret;
 }
 
-int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
+int loadPassenger(Passenger* list, int len,int* pos)
 {
 	int ret = -1;
-	int id = *actualId;
 	char name[51];
 	char lastName[51];
 	float price;
@@ -462,11 +462,9 @@ int loadPassenger(Passenger* list, int len, int* actualId,int* pos)
 				discountPrices(&price, 15);
 			}
 
-			addPassenger(list, len, id, name, lastName, price, type, flyCode, status, &position);
-			id++;
+			addPassenger(list, len, name, lastName, price, type, flyCode, status, &position);
 
 		}while(utn_confirmar("\nDesea continuar? s/n ", "\nRespuesta no valida.\n", 3) == 1);
-		*actualId = id;
 		*pos = position;
 	}
 
@@ -482,12 +480,36 @@ int findPassengerById(Passenger* list, int len,int id)
 	{
 		for(i = 0; i < len; i++)
 		{
-			if((list[i].id == id) && (list[i].isEmpty == 0))
+			if(((*(list+i)).id == id) && ((*(list+i)).isEmpty == 0))
 			{
 				ret = i;
 				break;
 			}
 		}
+	}
+	return ret;
+}
+
+int findFreeId(Passenger* list, int len)
+{
+	int ret = -1;
+	int i;
+	int flag;
+	if(list != NULL && len > 0)
+	{
+		ret = 1;
+		do
+		{
+			flag = 0;
+			for(i = 0; i < len; i++)
+			{
+				if(((*(list+i)).id == ret) && ((*(list+i)).isEmpty == 0))
+				{
+					flag = 1;
+					ret++;
+				}
+			}
+		}while(flag);
 	}
 	return ret;
 }
@@ -503,7 +525,7 @@ int removePassenger(Passenger* list, int len, int id)
 		if(position >= 0)
 		{
 			ret = 0;
-			list[position].isEmpty = 1;
+			(*(list+position)).isEmpty = 1;
 		}
 	}
 	return ret;
@@ -531,7 +553,7 @@ int deletePassenger(Passenger* list,typePassenger* types, statusFlight* status, 
 				}
 				else
 				{
-					printf("\nNo se encontró el id del pasajero.\n");
+					printf("\nNo se encontró el id del pasajero.\n\n");
 				}
 			}
 		}
@@ -575,35 +597,39 @@ int modifyPassenger(Passenger* list,typePassenger* types, statusFlight* status, 
 							case 1:
 								if(utn_getNombre(name, "\nIngrese su nombre: ", "\nError.\n",3, 51, 3) == 0)
 								{
-									strncpy(list[position].name,name,sizeof(list[position].name));
+									strncpy((*(list+position)).name,name,sizeof((*(list+position)).name));
 								}
 								break;
 							case 2:
 								if(utn_getNombre(lastName, "\nIngrese su apellido: ", "\nError.\n",3, 51, 3) == 0)
 								{
-									strncpy(list[position].lastName,lastName,sizeof(list[position].lastName));
+									strncpy((*(list+position)).lastName,lastName,sizeof((*(list+position)).lastName));
 								}
 								break;
 							case 3:
 								if(utn_getFlotante(&price, "\nIngrese precio: ", "\nError.\n", 10000, 3000000, 3) == 0)
 								{
-									list[position].price = price;
+									(*(list+position)).price = price;
 								}
 								break;
 							case 4:
 								if(utn_getNumero(&type,"\nIngrese el tipo de pasajero\n1-Menor\n2-Adulto\n3-Jubilado ", "\nError.\n", 1, 3, 3) == 0)
 								{
-									list[position].typePassenger = type;
+									(*(list+position)).typePassenger = type;
 								}
 								break;
 							case 5:
 								if(utn_getAlfanumerico(flyCode, "\nIngrese codigo de vuelo: ", "\nError.\n", 4, 10, 3) == 0)
 								{
-									strncpy(list[position].flyCode,flyCode,sizeof(list[position].flyCode));
+									strncpy((*(list+position)).flyCode,flyCode,sizeof((*(list+position)).flyCode));
 								}
 								break;
 						}
 					}
+				}
+				else
+				{
+					printf("\nNo se encontró el id.\n\n");
 				}
 			}
 		}
@@ -665,13 +691,14 @@ int printPassengers(Passenger* list,typePassenger* types, statusFlight* status, 
 		printf("\n");
 		for(i = 0; i < length; i++)
 		{
-			if(list[i].isEmpty == 0)
+			if((*(list+i)).isEmpty == 0)
 			{
-				typePos = findType(types, list[i].typePassenger);
-				statusPos = findStatus(status, list[i].statusFlight);
+				typePos = findType(types, (*(list+i)).typePassenger);
+				statusPos = findStatus(status, (*(list+i)).statusFlight);
 				if(typePos != -1 && statusPos != -1)
 				{
-					printPassenger(list[i].id, list[i].name, list[i].lastName, list[i].flyCode, list[i].price, types[typePos].description, status[statusPos].description);
+					printPassenger((*(list+i)).id, (*(list+i)).name, (*(list+i)).lastName, (*(list+i)).flyCode, (*(list+i)).price,
+							(*(types+typePos)).description, (*(status+statusPos)).description);
 				}
 			}
 		}
@@ -737,7 +764,7 @@ int findFreePosition(Passenger* list, int len)
 	{
 		for(i = 0; i < len; i++)
 		{
-			if(list[i].isEmpty == 1)
+			if((*(list+i)).isEmpty == 1)
 			{
 				ret = i;
 				break;

@@ -34,15 +34,16 @@ int main(void) {
 	Passenger arrayPassengers[QTY_PASSENGER];
 	int selectedNum;
 	int res;
-	int actualId = 1;
+	int i = 0;
+	int flag = 0;
 	int freePosition = 0;
-	Passenger array_AF[7] = {{1,"Olga","Fernandez",23200,"AAA123",3,1,0},
-							{16,"Jorge Luis","Rodriguez Silva",84250.25,"BBB123",2,1,0},
-							{22,"Fabricio Alejandro","Molina",12476,"CCC123",1,0,0},
-							{21,"Ramiro","Somoza",22750,"DDD123",2,1,0},
-							{31,"Marcelo Daniel","Gallardo",91218,"AAA123",2,1,0},
-							{9,"Liliana","Perez Benitez",41589.36,"EEE123",2,0,0},
-							{23,"Kiara","Alvarez Cossini",68545,"BBB123",1,1,0}};
+	Passenger array_AF[7] = {{0,"Olga","Fernandez",23200,"AAA123",3,1,0},
+							{0,"Jorge Luis","Rodriguez Silva",84250.25,"BBB123",2,1,0},
+							{0,"Fabricio Alejandro","Molina",12476,"CCC123",1,0,0},
+							{0,"Ramiro","Somoza",22750,"DDD123",2,1,0},
+							{0,"Marcelo Daniel","Gallardo",91218,"AAA123",2,1,0},
+							{0,"Liliana","Perez Benitez",41589.36,"EEE123",2,0,0},
+							{0,"Kiara","Alvarez Cossini",68545,"BBB123",1,1,0}};
 
 	typePassenger types[3] = {{1,"Menor"},{2,"Adulto"},{3,"Jubilado"}};
 	statusFlight status[2] = {{0,"Cancelado"},{1,"Activo"}};
@@ -59,7 +60,7 @@ int main(void) {
 				case 1:
 					if(freePosition < QTY_PASSENGER )
 					{
-						loadPassenger(arrayPassengers, QTY_PASSENGER, &actualId, &freePosition);
+						loadPassenger(arrayPassengers, QTY_PASSENGER, &freePosition);
 					}
 					else
 					{
@@ -69,7 +70,7 @@ int main(void) {
 				case 2:
 					if(freePosition > 0)
 					{
-						modifyPassenger(arrayPassengers, types, status, QTY_PASSENGER, actualId-1);
+						modifyPassenger(arrayPassengers, types, status, QTY_PASSENGER, QTY_PASSENGER);
 					}
 					else
 					{
@@ -79,7 +80,7 @@ int main(void) {
 				case 3:
 					if(freePosition > 0)
 					{
-						deletePassenger(arrayPassengers, types, status, QTY_PASSENGER, actualId-1, &freePosition);
+						deletePassenger(arrayPassengers, types, status, QTY_PASSENGER, QTY_PASSENGER, &freePosition);
 					}
 					else
 					{
@@ -97,8 +98,21 @@ int main(void) {
 					}
 					break;
 				case 5:
-					sortPassengersByCode(array_AF, 7, 1);
-					printPassengers(array_AF, types, status, 7);
+					if(flag == 0 || freePosition == 0)
+					{
+						for(i = 0; i < 7; i++)
+						{
+							addPassenger(arrayPassengers,QTY_PASSENGER,(*(array_AF+i)).name,(*(array_AF+i)).lastName,(*(array_AF+i)).price,
+									(*(array_AF+i)).typePassenger,(*(array_AF+i)).flyCode,(*(array_AF+i)).statusFlight,&freePosition);
+						}
+						sortPassengersByCode(arrayPassengers, 7, 1);
+						printPassengers(arrayPassengers, types, status, QTY_PASSENGER);
+						flag = 1;
+					}
+					else
+					{
+						printf("\nError, ya se realizó el alta forzada.\n\n");
+					}
 					break;
 			}
 		}

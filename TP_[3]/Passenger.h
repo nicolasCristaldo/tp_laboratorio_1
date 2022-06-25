@@ -51,6 +51,24 @@ Passenger* Passenger_newParametrosTxt(char* idStr,char* nombreStr,char* tipoPasa
 		char* codigoStr,char* estadoVueloStr);
 /******************** TRABAJO CON PASAJEROS *************************/
 /**
+ * elimina un pasajero de la linkedlist
+ * @param pArrayListPassenger linkedList*, lista donde se guardaran los pasajeros.
+ * @return retorna 0 si todo salio bien, -1 si hubo un error.
+ */
+int passenger_removePassenger(LinkedList* pArrayListPassenger);
+/**
+ * modifica un pasajero de la linkedlist
+ * @param pArrayListPassenger linkedList*, lista donde se guardaran los pasajeros.
+ * @return retorna 0 si todo salio bien, -1 si hubo un error.
+ */
+int Passenger_editPassenger(LinkedList* pArrayListPassenger);
+/**
+ * pide datos y agrega un pasajero a la linkedlist
+ * @param pArrayListPassenger linkedList*, lista donde se guardaran los pasajeros.
+ * @return retorna 0 si todo salio bien, -1 si hubo un error.
+ */
+int Passenger_addPassenger(LinkedList* pArrayListPassenger);
+/**
  * \brief elimina un pasajero
  * @param this puntero a pasajero, pasajero a eliminar.
  */

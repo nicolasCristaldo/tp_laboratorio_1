@@ -14,14 +14,14 @@
  * @param cant
  * @return
  */
-int esTelefono(int* resultado, char tel[], int cant);
+int esTelefono(int* resultado, char* tel, int cant);
 /**
  * valida una cadena alfanumerica
  * @param resultado
  * @param alfanum
  * @return
  */
-int esAlfanumerico(int* resultado, char alfanum[]);
+int esAlfanumerico(int* resultado, char* alfanum);
 /**
  * valida que la cadena son solo letras y espacio en el medio
  * @param pResultado cadena es un puntero al espacio de memoria donde se dejara el

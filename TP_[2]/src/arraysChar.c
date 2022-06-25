@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int esTelefono(int* resultado, char tel[], int cant)
+int esTelefono(int* resultado, char* tel, int cant)
 {
 	int ret = -1;
 	int res = 1;
@@ -50,7 +50,7 @@ int esTelefono(int* resultado, char tel[], int cant)
 	return ret;
 }
 
-int esAlfanumerico(int* resultado, char alfanum[])
+int esAlfanumerico(int* resultado, char* alfanum)
 {
 	int ret = -1;
 	int res = 1;
