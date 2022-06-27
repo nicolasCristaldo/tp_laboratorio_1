@@ -37,6 +37,7 @@ int main(void) {
 	int i = 0;
 	int flag = 0;
 	int freePosition = 0;
+	int idActual = 1;
 	Passenger array_AF[7] = {{0,"Olga","Fernandez",23200,"AAA123",3,1,0},
 							{0,"Jorge Luis","Rodriguez Silva",84250.25,"BBB123",2,1,0},
 							{0,"Fabricio Alejandro","Molina",12476,"CCC123",1,0,0},
@@ -52,7 +53,8 @@ int main(void) {
 
 	do
 	{
-		res = utn_getNumero(&selectedNum, "Seleccione una opcion:\n1-ALTAS. \n2-MODIFICAR. \n3-BAJA. \n4-INFORMAR.\n5-ALTA FORZADA.\n6-CERRAR.\n", "Error.\n", 1, 6, 3);
+		res = utn_getNumero(&selectedNum, "Seleccione una opcion:\n1-ALTAS. \n2-MODIFICAR. \n3-BAJA. \n4-INFORMAR.\n5-ALTA FORZADA.\n6-CERRAR.\n"
+				,"Error.\n\n", 1, 6, 3);
 		if(!res)
 		{
 			switch(selectedNum)
@@ -60,7 +62,7 @@ int main(void) {
 				case 1:
 					if(freePosition < QTY_PASSENGER )
 					{
-						loadPassenger(arrayPassengers, QTY_PASSENGER, &freePosition);
+						loadPassenger(arrayPassengers, QTY_PASSENGER, &freePosition, &idActual);
 					}
 					else
 					{
@@ -103,7 +105,7 @@ int main(void) {
 						for(i = 0; i < 7; i++)
 						{
 							addPassenger(arrayPassengers,QTY_PASSENGER,(*(array_AF+i)).name,(*(array_AF+i)).lastName,(*(array_AF+i)).price,
-									(*(array_AF+i)).typePassenger,(*(array_AF+i)).flyCode,(*(array_AF+i)).statusFlight,&freePosition);
+									(*(array_AF+i)).typePassenger,(*(array_AF+i)).flyCode,(*(array_AF+i)).statusFlight,&freePosition,&idActual);
 						}
 						sortPassengersByCode(arrayPassengers, 7, 1);
 						printPassengers(arrayPassengers, types, status, QTY_PASSENGER);

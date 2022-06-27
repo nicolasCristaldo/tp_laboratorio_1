@@ -369,21 +369,20 @@ int initPassengers(Passenger* list, int len)
 	return ret;
 }
 
-int addPassenger(Passenger* list, int len, char* name,char* lastName,float price,int typePassenger, char* flycode, int status, int* position)
+int addPassenger(Passenger* list,int len,char* name,char* lastName,float price,int typePassenger,char* flycode,int status,int* position,int* idActual)
 {
 	int ret = -1;
 	int pos;
-	int id;
-	if(position != NULL && list != NULL && len > 0 && name != NULL && lastName != NULL && price > 0 && (status == 0 || status == 1) && (typePassenger >= 1 && typePassenger <= 3) && flycode > 0)
+	if(position != NULL && list != NULL && len > 0 && name != NULL && lastName != NULL && price > 0 && (status == 0 || status == 1) &&
+			(typePassenger >= 1 && typePassenger <= 3) && flycode > 0 && idActual != NULL)
 	{
 		ret = 0;
-
 		pos = findFreePosition(list, len);
-		id = findFreeId(list, len);
-		if(pos != -1 && id != -1)
+
+		if(pos != -1)
 		{
 			(*(list+pos)).isEmpty = 0;
-			(*(list+pos)).id = id;
+			(*(list+pos)).id = *idActual;
 			strncpy((*(list+pos)).name,name,sizeof((*(list+pos)).name));
 			strncpy((*(list+pos)).lastName,lastName,sizeof((*(list+pos)).lastName));
 			(*(list+pos)).price = price;
@@ -391,6 +390,7 @@ int addPassenger(Passenger* list, int len, char* name,char* lastName,float price
 			strncpy((*(list+pos)).flyCode,flycode,sizeof((*(list+pos)).flyCode));
 			(*(list+pos)).statusFlight = status;
 			*position = *position + 1;
+			*idActual = *idActual + 1;
 		}
 		else
 		{
@@ -400,7 +400,7 @@ int addPassenger(Passenger* list, int len, char* name,char* lastName,float price
 	return ret;
 }
 
-int loadPassenger(Passenger* list, int len,int* pos)
+int loadPassenger(Passenger* list, int len,int* pos,int* idActual)
 {
 	int ret = -1;
 	char name[51];
@@ -410,6 +410,7 @@ int loadPassenger(Passenger* list, int len,int* pos)
 	char flyCode[10];
 	int status;
 	int position = *pos;
+	int id = *idActual;
 
 	if(list != NULL && len > 0)
 	{
@@ -462,10 +463,11 @@ int loadPassenger(Passenger* list, int len,int* pos)
 				discountPrices(&price, 15);
 			}
 
-			addPassenger(list, len, name, lastName, price, type, flyCode, status, &position);
+			addPassenger(list, len, name, lastName, price, type, flyCode, status, &position, &id);
 
 		}while(utn_confirmar("\nDesea continuar? s/n ", "\nRespuesta no valida.\n", 3) == 1);
 		*pos = position;
+		*idActual = id;
 	}
 
 	return ret;
@@ -486,30 +488,6 @@ int findPassengerById(Passenger* list, int len,int id)
 				break;
 			}
 		}
-	}
-	return ret;
-}
-
-int findFreeId(Passenger* list, int len)
-{
-	int ret = -1;
-	int i;
-	int flag;
-	if(list != NULL && len > 0)
-	{
-		ret = 1;
-		do
-		{
-			flag = 0;
-			for(i = 0; i < len; i++)
-			{
-				if(((*(list+i)).id == ret) && ((*(list+i)).isEmpty == 0))
-				{
-					flag = 1;
-					ret++;
-				}
-			}
-		}while(flag);
 	}
 	return ret;
 }

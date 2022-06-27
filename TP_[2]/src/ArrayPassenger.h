@@ -52,17 +52,19 @@ int initPassengers(Passenger* list, int len);
  * @param flycode array de caracteres, codigo alfanumerico del pasajero
  * @param status estado de vuelo
  * @param pos posicion del array donde se guardaron los datos, si no la encuentra, retorna -1
+ * @param idActual, id maximo actual
  * @return
  */
-int addPassenger(Passenger* list, int len, char* name,char* lastName,float price,int typePassenger, char* flycode, int status, int* pos);
+int addPassenger(Passenger* list,int len,char* name,char* lastName,float price,int typePassenger,char* flycode, int status,int* pos,int* idActual);
 /**
  * llama a las funciones que piden los datos del pasajero
  * @param listlist puntero a array de pasajeros
  * @param len len tamaño del array
+ * @param idActual, id maximo actual
  * @param pos puntero a int, si hay posiciones disponibles retorna la ultima posicion donde se guardaron datos, si no hay retorna -1
  * @return
  */
-int loadPassenger(Passenger* list, int len,int* pos);
+int loadPassenger(Passenger* list, int len,int* pos,int* idActual);
 /**
  * busca un pasajero recibiendo su id
  * @param list puntero a array de pasajeros
@@ -141,10 +143,4 @@ int inform(Passenger* list, int len, typePassenger* types, statusFlight* status)
  * @return retorna la posicion libre, si no la encuentra retorna -1
  */
 int findFreePosition(Passenger* list, int len);
-/**
- * busca un numero de id libre y lo retorna
- * @param list puntero a array de pasajeros
- * @param len tamaño del array
- * @return retorna -1 si hubo un error 0 un numero de id sin utilizar si se lo encuentra
- */
-int findFreeId(Passenger* list, int len);
+
